@@ -12,8 +12,6 @@ import '@shoelace-style/shoelace/dist/components/divider/divider.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
 import { CellMap } from '@darksoil-studio/holochain-utils';
 import { css, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
@@ -25,6 +23,8 @@ import '../helpers/help-button.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { cytoscapeConfig } from './graph.js';
 import { allEntries } from './processors.js';
+import { wrapPathInSvg } from '../utils/icons.js';
+import '../agent/holo-identicon.js';
 
 /**
  * @element dht-entries

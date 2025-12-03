@@ -12,6 +12,7 @@ import { customElement } from 'lit/decorators.js';
 
 import { PlaygroundElement } from '../../base/playground-element.js';
 import { sharedStyles } from '../utils/shared-styles.js';
+import '../agent/holo-identicon.js';
 
 @customElement('select-active-dna')
 export class SelectActiveDna extends PlaygroundElement {

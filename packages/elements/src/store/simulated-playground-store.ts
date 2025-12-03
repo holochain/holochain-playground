@@ -3,8 +3,7 @@ import {
 	AsyncComputed,
 	AsyncSignal,
 	AsyncState,
-	Signal,
-} from '@darksoil-studio/holochain-signals';
+} from 'async-signals';
 import { CellMap } from '@darksoil-studio/holochain-utils';
 import {
 	AppRole,
@@ -32,6 +31,7 @@ import {
 	DhtOp,
 	DnaModifiers,
 	Record,
+	Signal,
 } from '@holochain/client';
 import { encode } from '@msgpack/msgpack';
 

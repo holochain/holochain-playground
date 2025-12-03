@@ -2,9 +2,7 @@ import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import {
 	AsyncComputed,
 	AsyncSignal,
-	Signal,
-    watch,
-} from '@darksoil-studio/holochain-signals';
+} from 'async-signals';
 import {
 	AGENT_PREFIX,
 	CellMap,
@@ -25,6 +23,7 @@ import {
 	Record,
 	decodeHashFromBase64,
 	encodeHashToBase64,
+	Signal,
 } from '@holochain/client';
 import { Base64 } from 'js-base64';
 import isEqual from 'lodash-es/isEqual.js';

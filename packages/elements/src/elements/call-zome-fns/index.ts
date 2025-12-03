@@ -16,8 +16,6 @@ import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 import '@shoelace-style/shoelace/dist/components/tab/tab.js';
 import '@shoelace-style/shoelace/dist/components/tag/tag.js';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
 import { CellMap, isHash } from '@darksoil-studio/holochain-utils';
 import { css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -26,6 +24,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { cloneDeepWith } from 'lodash-es';
 
 import { PlaygroundElement } from '../../base/playground-element.js';
+import '../agent/holo-identicon.js';
 import {
 	SimulatedCellStore,
 	SimulatedConductorStore,
@@ -36,6 +35,7 @@ import '../helpers/call-functions.js';
 import { shortenStrRec } from '../utils/hash.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { ZomeFunctionResult } from './types.js';
+import { wrapPathInSvg } from '../utils/icons.js';
 
 type Dictionary<T> = Record<string, T>;
 

@@ -2,12 +2,12 @@ import {
 	Dictionary,
 	SimulatedHappBundle,
 } from '@holochain-playground/simulator';
-import { notifyError } from '@darksoil-studio/holochain-elements';
 import { html } from 'lit';
 
 import { PlaygroundElement } from '../../base/playground-element.js';
 import { SimulatedConductorStore } from '../../store/simulated-playground-store.js';
 import { CallableFn } from '../helpers/call-functions.js';
+import { notifyError } from '../utils/notify.js';
 
 export function adminApi(
 	element: PlaygroundElement,

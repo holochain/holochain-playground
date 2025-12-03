@@ -20,9 +20,6 @@ import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 import '@shoelace-style/shoelace/dist/components/tab/tab.js';
 import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
-import '@darksoil-studio/holochain-elements/dist/elements/display-error.js';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
-import { joinAsync } from '@darksoil-studio/holochain-signals';
 import { hashAction } from '@darksoil-studio/holochain-utils';
 import '@vaadin/grid/vaadin-grid-column.js';
 import '@vaadin/grid/vaadin-grid-sort-column.js';
@@ -35,6 +32,8 @@ import { CellStore } from '../../store/playground-store.js';
 import '../helpers/help-button.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import './vaadin-grid-template-renderer-column.js';
+import '../agent/holo-identicon.js';
+import '../error/display-error.js';
 
 function getValidationLimboStatus(status: ValidationLimboStatus): string {
 	switch (status) {

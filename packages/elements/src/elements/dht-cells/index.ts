@@ -14,6 +14,7 @@ import {
 	DhtOp,
 	decodeHashFromBase64,
 	encodeHashToBase64,
+	Signal,
 } from '@holochain/client';
 import { mdiCog, mdiLanConnect, mdiPlay, mdiSpeedometer } from '@mdi/js';
 import '@scoped-elements/cytoscape';
@@ -34,9 +35,7 @@ import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/switch/switch.js';
 import { DhtOpHash, ValidationStatus } from '@darksoil-studio/holochain-core-types';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
-import { AsyncComputed, Signal, watch } from '@darksoil-studio/holochain-signals';
+import { AsyncComputed } from 'async-signals';
 import { CellMap, HoloHashMap } from '@darksoil-studio/holochain-utils';
 import { ElementDefinition, NodeDefinition, NodeSingular } from 'cytoscape';
 import { PropertyValues, css, html } from 'lit';
@@ -66,6 +65,8 @@ import {
 	stringifyCellId,
 } from './processors.js';
 import { effect } from './utils.js';
+import { wrapPathInSvg } from '../utils/icons.js';
+import '../agent/holo-identicon.js';
 
 const MIN_ANIMATION_DELAY = 1;
 const MAX_ANIMATION_DELAY = 7;

@@ -27,16 +27,15 @@ import {
 	AsyncSignal,
 	Signal,
 	joinAsync,
-	joinAsyncMap,
 	uniquify,
-	watch,
-} from '@darksoil-studio/holochain-signals';
+} from 'async-signals';
 import { CellMap, HashType, hash, hashAction } from '@darksoil-studio/holochain-utils';
 import isEqual from 'lodash-es/isEqual.js';
 
 import { ConnectedConductorStore } from './connected-playground-store.js';
 import { SimulatedConductorStore } from './simulated-playground-store.js';
 import { joinAsyncCellMap, mapCellValues } from './utils.js';
+import { watch } from '../elements/utils/watch.js';
 
 export interface CellStore {
 	sourceChain: AsyncSignal<Record[]>;

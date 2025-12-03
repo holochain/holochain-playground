@@ -15,11 +15,16 @@ export * from './elements/source-chain/index.js';
 export * from './elements/dht-entries/index.js';
 export * from './elements/conductor-happs/index.js';
 export * from './elements/validation-queue/index.js';
+export * from './elements/agent/holo-identicon.js';
+export * from './elements/error/display-error.js';
 
 export * from './elements/helpers/call-functions.js';
 export * from './elements/helpers/search-dht-entry.js';
 export * from './elements/helpers/cell-tasks.js';
 export * from './elements/helpers/help-button.js';
 export * from './elements/utils/shared-styles.js';
+export * from './elements/utils/icons.js';
+export * from './elements/utils/notify.js';
+export * from './elements/utils/watch.js';
 
 export * from './store/connected-playground-store.js';

@@ -1,4 +1,5 @@
-import { AsyncSignal, AsyncState, Signal } from '@darksoil-studio/holochain-signals';
+import { AsyncSignal, AsyncState } from 'async-signals';
+import { Signal } from '@holochain/client';
 
 export function pollingSignal<T>(
 	pollingRequest: (currentState: T | undefined) => Promise<T>,

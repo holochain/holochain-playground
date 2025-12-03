@@ -1,6 +1,5 @@
 import '@alenaksu/json-viewer';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
-import { AsyncComputed } from '@darksoil-studio/holochain-signals';
+import { AsyncComputed } from 'async-signals';
 import {
 	AppInfoStatus,
 	CellInfo,
@@ -43,6 +42,8 @@ import '../helpers/help-button.js';
 import { shortenStrRec } from '../utils/hash.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import '../validation-queue/vaadin-grid-template-renderer-column.js';
+import '../agent/holo-identicon.js';
+import '../error/display-error.js';
 
 @customElement('conductor-happs')
 export class ConductorHapps extends PlaygroundElement {
