@@ -1,10 +1,8 @@
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import {
 	AsyncComputed,
 	AsyncSignal,
 	AsyncState,
 } from 'async-signals';
-import { CellMap } from '@darksoil-studio/holochain-utils';
 import {
 	AppRole,
 	BadAgent,
@@ -32,6 +30,8 @@ import {
 	DnaModifiers,
 	Record,
 	Signal,
+	ValidationStatus,
+	CellMap
 } from '@holochain/client';
 import { encode } from '@msgpack/msgpack';
 

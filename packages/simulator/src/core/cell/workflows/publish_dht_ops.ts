@@ -1,6 +1,4 @@
-import { DhtOp, HoloHash } from '@holochain/client';
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
+import { DhtOp, HoloHash, DhtOpHash, HoloHashMap } from '@holochain/client';
 
 import { getNonPublishedDhtOps } from '../source-chain/utils.js';
 import { getDhtOpBasis } from '../utils.js';

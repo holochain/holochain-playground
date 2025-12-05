@@ -11,14 +11,14 @@ import {
 	RegisterAgentActivity,
 	SignedActionHashed,
 	WarrantOp,
-} from '@holochain/client';
-import {
 	Details,
 	DetailsType,
 	EntryDetails,
 	RecordDetails,
-} from '@darksoil-studio/holochain-core-types';
-import { HashType, HoloHashMap, getHashType } from '@darksoil-studio/holochain-utils';
+	HoloHashType,
+	HoloHashMap,
+	getHashType
+} from '@holochain/client';
 
 import { areEqual } from '../../../processors/hash.js';
 import {
@@ -53,7 +53,7 @@ export class Cascade {
 		hash: ActionHash,
 		options: GetOptions,
 	): Promise<SignedActionHashed | undefined> {
-		if (getHashType(hash) !== HashType.ACTION)
+		if (getHashType(hash) !== HoloHashType.Action)
 			throw new Error(
 				`Trying to retrieve a action with a hash of another type`,
 			);
@@ -78,7 +78,7 @@ export class Cascade {
 		options: GetOptions,
 	): Promise<Entry | undefined> {
 		const hashType = getHashType(hash);
-		if (hashType !== HashType.ENTRY && hashType !== HashType.AGENT)
+		if (hashType !== HoloHashType.Entry && hashType !== HoloHashType.Agent)
 			throw new Error(`Trying to retrieve a entry with a hash of another type`);
 
 		const isPresent = this.state.CAS.get(hash);
@@ -108,7 +108,7 @@ export class Cascade {
 		if (isPresent && options.strategy === GetStrategy.Contents) {
 			const hashType = getHashType(hash);
 
-			if (hashType === HashType.ENTRY) {
+			if (hashType === HoloHashType.Entry) {
 				const entry = this.state.CAS.get(hash);
 				const signed_action = Array.from(this.state.CAS.values()).find(
 					action =>
@@ -126,7 +126,7 @@ export class Cascade {
 				};
 			}
 
-			if (hashType === HashType.ACTION) {
+			if (hashType === HoloHashType.Action) {
 				const signed_action = this.state.CAS.get(hash);
 				const { entry_hash } = (
 					signed_action as SignedActionHashed<NewEntryAction>
@@ -184,7 +184,7 @@ export class Cascade {
 		hash: AnyDhtHash,
 		options: GetOptions,
 	): Promise<Details | undefined> {
-		if (getHashType(hash) === HashType.ENTRY) {
+		if (getHashType(hash) === HoloHashType.Entry) {
 			const entryDetails = await this.getEntryDetails(hash, options);
 
 			if (!entryDetails) return undefined;
@@ -193,7 +193,7 @@ export class Cascade {
 				type: DetailsType.Entry,
 				content: entryDetails,
 			};
-		} else if (getHashType(hash) === HashType.ACTION) {
+		} else if (getHashType(hash) === HoloHashType.Action) {
 			const recordDetails = await this.getActionDetails(hash, options);
 
 			if (!recordDetails) return undefined;

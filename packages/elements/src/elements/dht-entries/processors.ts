@@ -8,14 +8,12 @@ import {
 	NewEntryAction,
 	decodeHashFromBase64,
 	encodeHashToBase64,
-} from '@holochain/client';
-import {
 	CellMap,
-	HashType,
 	HoloHashMap,
 	getHashType,
-	retype,
-} from '@darksoil-studio/holochain-utils';
+	hashFrom32AndType,
+	sliceCore32
+} from '@holochain/client';
 import uniq from 'lodash-es/uniq.js';
 
 import { shortenStrRec } from '../utils/hash.js';
@@ -108,9 +106,9 @@ export function allEntries(
 
 	for (const [baseAddress, links] of summary.links.entries()) {
 		let entryHash;
-		if (getHashType(baseAddress) === HashType.ENTRY) {
+		if (getHashType(baseAddress) === HoloHashType.ENTRY) {
 			entryHash = baseAddress;
-		} else if (getHashType(baseAddress) === HashType.ACTION) {
+		} else if (getHashType(baseAddress) === HoloHashType.ACTION) {
 			const action: Action = summary.actions.get(baseAddress);
 			if (action && (action as NewEntryAction).entry_hash) {
 				entryHash = (action as NewEntryAction).entry_hash;
@@ -311,12 +309,12 @@ export function allEntries(
 }
 
 function hasHash(summary: DhtSummary, hash: HoloHash): HoloHash | undefined {
-	if (getHashType(hash) === HashType.ACTION) {
+	if (getHashType(hash) === HoloHashType.Action) {
 		return summary.actions.has(hash) ? hash : undefined;
 	} else {
 		let hashToCheck = hash;
-		if (getHashType(hash) === HashType.AGENT) {
-			hashToCheck = retype(hash, HashType.ENTRY);
+		if (getHashType(hash) === HoloHashType.Agent) {
+			hashToCheck = hashFrom32AndType(sliceCore32(hash), HoloHashType.Entry);
 		}
 		return summary.entries.has(hashToCheck) ? hashToCheck : undefined;
 	}

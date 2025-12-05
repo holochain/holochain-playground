@@ -1,17 +1,11 @@
 import {
-	CellMap,
-	HashType,
-	HoloHashMap,
-	hash,
-	hashAction,
-} from '@darksoil-studio/holochain-utils';
-import {
 	BadAgent,
 	Cell,
 	getDhtOpAction,
 	getDhtOpType,
 	isWarrantOp,
 	location,
+	hashAction
 } from '@holochain-playground/simulator';
 import {
 	ActionHash,
@@ -23,6 +17,8 @@ import {
 	EntryHash,
 	NewEntryAction,
 	encodeHashToBase64,
+	CellMap,
+	HoloHashMap
 } from '@holochain/client';
 import isEqual from 'lodash-es/isEqual.js';
 

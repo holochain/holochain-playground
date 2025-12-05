@@ -16,7 +16,6 @@ import {
 	SignedActionHashed,
 	Update,
 } from '@holochain/client';
-import { HashType, hash, hashAction } from '@darksoil-studio/holochain-utils';
 import { isEqual } from 'lodash-es';
 
 import {

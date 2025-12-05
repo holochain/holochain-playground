@@ -1,5 +1,4 @@
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
+import { DhtOpHash, HoloHashMap } from '@holochain/client';
 
 import { sleep } from '../../../../executor/delay-middleware.js';
 import { getValidationReceipts } from '../../../cell/index.js';

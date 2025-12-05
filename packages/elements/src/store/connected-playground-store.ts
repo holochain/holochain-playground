@@ -1,13 +1,7 @@
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import {
 	AsyncComputed,
 	AsyncSignal,
 } from 'async-signals';
-import {
-	AGENT_PREFIX,
-	CellMap,
-	locationBytes,
-} from '@darksoil-studio/holochain-utils';
 import { ValidationLimboStatus } from '@holochain-playground/simulator';
 import {
 	AdminWebsocket,
@@ -24,6 +18,8 @@ import {
 	decodeHashFromBase64,
 	encodeHashToBase64,
 	Signal,
+	ValidationStatus,
+	CellMap
 } from '@holochain/client';
 import { Base64 } from 'js-base64';
 import isEqual from 'lodash-es/isEqual.js';

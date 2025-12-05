@@ -1,4 +1,4 @@
-import { ValidationReceipt } from '@darksoil-studio/holochain-core-types';
+import { ValidationReceipt } from '@holochain/client';
 import uniq from 'lodash-es/uniq.js';
 
 import { getBadAgents } from '../../network/utils.js';

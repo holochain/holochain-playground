@@ -1,4 +1,3 @@
-import { HashType, hash, hashAction } from '@darksoil-studio/holochain-utils';
 import {
 	Action,
 	ActionType,
@@ -18,10 +17,13 @@ import {
 	Signature,
 	Update,
 	WarrantOp,
+	hashFromContentAndType,
+	HoloHashType
 } from '@holochain/client';
 
 import { SimulatedDna } from '../../dnas/simulated-dna.js';
 import { isPublic } from './source-chain/utils.js';
+import { hashAction } from '../utils.js';
 
 export function extractEntry(record: Record): Entry | undefined {
 	return 'Present' in record.entry ? record.entry.Present : undefined;
@@ -29,7 +31,7 @@ export function extractEntry(record: Record): Entry | undefined {
 
 export function hashEntry(entry: Entry): EntryHash {
 	if (entry.entry_type === 'Agent') return entry.entry;
-	return hash(entry, HashType.ENTRY);
+	return hashFromContentAndType(entry, HoloHashType.ENTRY);
 }
 
 export function getAppEntryType(
@@ -307,3 +309,5 @@ export function getDhtOpEntry(op: ChainOp): Entry | undefined {
 export function getDhtOpSignature(op: ChainOp): Signature {
 	return Object.values(op)[0][1];
 }
+
+export { hashAction };

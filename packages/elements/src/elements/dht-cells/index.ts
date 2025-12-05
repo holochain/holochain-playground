@@ -15,6 +15,9 @@ import {
 	decodeHashFromBase64,
 	encodeHashToBase64,
 	Signal,
+	DhtOpHash,
+	CellMap,
+	HoloHashMap
 } from '@holochain/client';
 import { mdiCog, mdiLanConnect, mdiPlay, mdiSpeedometer } from '@mdi/js';
 import '@scoped-elements/cytoscape';
@@ -34,9 +37,7 @@ import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/switch/switch.js';
-import { DhtOpHash, ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import { AsyncComputed } from 'async-signals';
-import { CellMap, HoloHashMap } from '@darksoil-studio/holochain-utils';
 import { ElementDefinition, NodeDefinition, NodeSingular } from 'cytoscape';
 import { PropertyValues, css, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';

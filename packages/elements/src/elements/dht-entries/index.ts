@@ -2,6 +2,7 @@ import {
 	DhtOp,
 	decodeHashFromBase64,
 	encodeHashToBase64,
+	CellMap,
 } from '@holochain/client';
 import { mdiFilter, mdiFilterMinus } from '@mdi/js';
 import '@scoped-elements/cytoscape';
@@ -12,7 +13,6 @@ import '@shoelace-style/shoelace/dist/components/divider/divider.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
-import { CellMap } from '@darksoil-studio/holochain-utils';
 import { css, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import isEqual from 'lodash-es/isEqual.js';

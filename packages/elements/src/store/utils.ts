@@ -1,6 +1,5 @@
-import { CellId } from '@holochain/client';
+import { CellId, CellMap } from '@holochain/client';
 import { AsyncResult, JoinAsyncOptions, joinAsync } from 'async-signals';
-import { CellMap } from '@darksoil-studio/holochain-utils';
 
 export function cellChanges(
 	currentCellIds: CellId[],

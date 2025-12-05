@@ -5,8 +5,7 @@ import {
 	MiddlewareSubscription,
 	SuccessMiddleware,
 } from '@holochain-playground/simulator';
-import { CellId } from '@holochain/client';
-import { CellMap } from '@darksoil-studio/holochain-utils';
+import { CellId, CellMap } from '@holochain/client';
 import { ReactiveController, ReactiveElement } from 'lit';
 
 import { cellChanges } from '../store/utils.js';

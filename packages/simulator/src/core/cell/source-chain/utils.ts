@@ -18,9 +18,9 @@ import {
 	SignedActionHashed,
 	Update,
 	ZomeCallCapGrant,
+	DhtOpHash,
+	HoloHashMap
 } from '@holochain/client';
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 
 import { areEqual } from '../../../processors/hash.js';
 import { CellState } from '../state.js';

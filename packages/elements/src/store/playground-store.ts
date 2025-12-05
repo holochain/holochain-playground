@@ -5,6 +5,7 @@ import {
 	getDhtOpEntry,
 	getDhtOpType,
 	isWarrantOp,
+	hashAction,
 } from '@holochain-playground/simulator';
 import {
 	ActionHashed,
@@ -19,8 +20,9 @@ import {
 	NewEntryAction,
 	Record,
 	encodeHashToBase64,
+	ValidationStatus,
+	CellMap
 } from '@holochain/client';
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import {
 	AsyncComputed,
 	AsyncResult,
@@ -29,7 +31,6 @@ import {
 	joinAsync,
 	uniquify,
 } from 'async-signals';
-import { CellMap, HashType, hash, hashAction } from '@darksoil-studio/holochain-utils';
 import isEqual from 'lodash-es/isEqual.js';
 
 import { ConnectedConductorStore } from './connected-playground-store.js';

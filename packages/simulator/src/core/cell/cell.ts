@@ -8,10 +8,12 @@ import {
 	EntryHash,
 	LinkType,
 	Record,
+	DhtOpHash,
+	hashFromContentAndType,
+	HoloHashType,
+	getHashType,
+	HoloHashMap,
 } from '@holochain/client';
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HashType, getHashType, hash } from '@darksoil-studio/holochain-utils';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 import { cloneDeep, isEqual, uniqWith } from 'lodash-es';
 
 import { sleep } from '../../executor/delay-middleware.js';
@@ -179,9 +181,9 @@ export class Cell {
 		const authority = new Authority(this._state, this.p2p);
 
 		const hashType = getHashType(dht_hash);
-		if (hashType === HashType.ENTRY || hashType === HashType.AGENT) {
+		if (hashType === HoloHashType.Entry || hashType === HoloHashType.Agent) {
 			return authority.handle_get_entry(dht_hash, options);
-		} else if (hashType === HashType.ACTION) {
+		} else if (hashType === HoloHashType.Action) {
 			return authority.handle_get_record(dht_hash, options);
 		}
 		return undefined;
@@ -269,7 +271,7 @@ export class Cell {
 		const dhtOpsToProcess: HoloHashMap<DhtOpHash, DhtOp> = new HoloHashMap();
 
 		for (const badAction of gossip.badActions) {
-			const dhtOpHash = hash(badAction.op, HashType.DHTOP);
+			const dhtOpHash = hashFromContentAndType(badAction.op, HoloHashType.DhtOp);
 			if (!hasDhtOpBeenProcessed(this._state, dhtOpHash)) {
 				dhtOpsToProcess.set(dhtOpHash, badAction.op);
 			}

@@ -1,20 +1,28 @@
 import renderIcon from "@holo-host/identicon";
-import { HoloHash, encodeHashToBase64 } from "@holochain/client";
+import { HoloHash, encodeHashToBase64, HoloHashMap, LazyHoloHashMap } from "@holochain/client";
 import { localized, msg } from "@lit/localize";
 import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
 import SlTooltip from "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
-import {
-  HoloHashMap,
-  MemoHoloHashMap,
-  MemoMap,
-} from "@darksoil-studio/holochain-utils";
 import { LitElement, PropertyValues, css, html } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 import { hashProperty } from "../holo-hash-property.js";
 
-const canvasCache = new MemoHoloHashMap(
+class MemoMap<K, V> {
+  map = new Map<K, V>();
+
+  constructor(protected newValue: (hash: K) => V) {}
+
+  get(hash: K): V | undefined {
+    if (!this.map.has(hash)) {
+      this.map.set(hash, this.newValue(hash));
+    }
+    return this.map.get(hash);
+  }
+}
+
+const canvasCache = new LazyHoloHashMap(
   (hash) =>
     new MemoMap((size: number) => {
       const canvas = document.createElement("canvas");

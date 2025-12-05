@@ -13,10 +13,9 @@ import {
 	Update,
 	encodeHashToBase64,
 } from '@holochain/client';
-import { hashAction } from '@darksoil-studio/holochain-utils';
 
 import { isPublic } from '../../source-chain/utils';
-import { getDhtOpAction, getDhtOpSignature, getEntry } from '../../utils';
+import { getDhtOpAction, getDhtOpSignature, getEntry, hashAction } from '../../utils';
 
 export class MissingDependenciesError extends Error {
 	constructor(public missingDepsHashes: AnyDhtHash[]) {

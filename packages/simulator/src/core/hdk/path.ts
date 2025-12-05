@@ -1,5 +1,4 @@
-import { EntryHash, LinkType } from '@holochain/client';
-import { HashType, retype } from '@darksoil-studio/holochain-utils';
+import { EntryHash, LinkType, HoloHashType, hashFrom32AndType, sliceCore32 } from '@holochain/client';
 
 import { areEqual } from '../../processors/hash.js';
 import { Hdk } from './context.js';
@@ -19,7 +18,7 @@ export const ensure =
 
 			const links = (await hdk.get_links(root, link_type)) || [];
 			const linksForThisPath = links.filter(link =>
-				areEqual(retype(link.target, HashType.ENTRY), pathHash),
+				areEqual(hashFrom32AndType(sliceCore32(link.target), HoloHashType.Entry), pathHash),
 			);
 
 			if (linksForThisPath.length === 0) {
@@ -41,7 +40,7 @@ export const ensure =
 
 			const links = (await hdk.get_links(parentHash, link_type)) || [];
 			const linksForThisPath = links.filter(link =>
-				areEqual(retype(link.target, HashType.ENTRY), pathHash),
+				areEqual(hashFrom32AndType(sliceCore32(link.target), HoloHashType.Entry), pathHash),
 			);
 
 			if (linksForThisPath.length === 0) {

@@ -3,9 +3,8 @@ import {
 	AsyncComputed,
 	Signal,
 } from 'async-signals';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 import { areEqual } from '@holochain-playground/simulator';
-import { AnyDhtHash, encodeHashToBase64 } from '@holochain/client';
+import { AnyDhtHash, encodeHashToBase64, HoloHashMap } from '@holochain/client';
 import { mdiHelpCircleOutline, mdiInformationOutline } from '@mdi/js';
 import { decode } from '@msgpack/msgpack';
 import { SlInput } from '@shoelace-style/shoelace';

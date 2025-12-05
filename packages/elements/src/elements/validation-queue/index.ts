@@ -3,6 +3,7 @@ import {
 	areEqual,
 	getDhtOpAction,
 	getDhtOpBasis,
+	hashAction,
 } from '@holochain-playground/simulator';
 import {
 	Action,
@@ -12,6 +13,7 @@ import {
 	DhtOp,
 	WarrantOp,
 	encodeHashToBase64,
+	ValidationStatus
 } from '@holochain/client';
 import '@scoped-elements/cytoscape';
 import '@shoelace-style/shoelace/dist/components/card/card.js';
@@ -19,8 +21,6 @@ import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 import '@shoelace-style/shoelace/dist/components/tab/tab.js';
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
-import { hashAction } from '@darksoil-studio/holochain-utils';
 import '@vaadin/grid/vaadin-grid-column.js';
 import '@vaadin/grid/vaadin-grid-sort-column.js';
 import '@vaadin/grid/vaadin-grid.js';

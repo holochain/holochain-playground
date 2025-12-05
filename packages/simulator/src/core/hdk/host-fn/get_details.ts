@@ -1,5 +1,4 @@
-import { AnyDhtHash } from '@holochain/client';
-import { Details } from '@darksoil-studio/holochain-core-types';
+import { AnyDhtHash, Details } from '@holochain/client';
 
 import { GetOptions, GetStrategy } from '../../../types.js';
 import { HostFn, HostFnWorkspace } from '../host-fn.js';

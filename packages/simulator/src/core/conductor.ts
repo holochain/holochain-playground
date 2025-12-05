@@ -1,16 +1,14 @@
 import {
-	CellMap,
-	HashType,
-	HoloHashMap,
-	hash,
-} from '@darksoil-studio/holochain-utils';
-import {
 	AgentPubKey,
 	CapSecret,
 	CellId,
 	DnaHash,
 	RoleSettingsMap,
 	encodeHashToBase64,
+	CellMap,
+	HoloHashMap,
+	HashType,
+	hashFromContentAndType
 } from '@holochain/client';
 import isEqual from 'lodash-es/isEqual.js';
 
@@ -149,7 +147,7 @@ export class Conductor {
 	/** Admin API */
 	/*
   async registerDna(dna_template: SimulatedDna): Promise<Hash> {
-    const templateHash = hash(dna_template, HashType.DNA);
+    const templateHash = hashFromContentAndType(dna_template, HoloHashType.Dna);
 
     this.registeredDnas[templateHash] = dna_template;
     return templateHash;
@@ -216,7 +214,7 @@ export class Conductor {
 		roles_settings: RoleSettingsMap,
 	): Promise<void> {
 		const rand = `${Math.random().toString()}/${Date.now()}`;
-		const agentId = hash(rand, HashType.AGENT);
+		const agentId = hashFromContentAndType(rand, HoloHashType.Agent);
 
 		this.installedHapps[happ.name] = {
 			agent_pub_key: agentId,

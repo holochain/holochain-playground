@@ -14,13 +14,11 @@ import {
 	SignedActionHashed,
 	Update,
 	encodeHashToBase64,
-} from '@holochain/client';
-import {
 	DhtOpHash,
 	EntryDhtStatus,
 	ValidationReceipt,
-} from '@darksoil-studio/holochain-core-types';
-import { HashType, HoloHashMap, hash, hashAction } from '@darksoil-studio/holochain-utils';
+	HoloHashMap
+} from '@holochain/client';
 import isEqual from 'lodash-es/isEqual.js';
 
 import {
@@ -41,6 +39,7 @@ import {
 	getDhtOpType,
 	getEntry,
 	isWarrantOp,
+	hashAction,
 } from '../utils.js';
 import { getActionsForEntry } from './get.js';
 

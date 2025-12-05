@@ -4,8 +4,8 @@ import {
 	NewEntryAction,
 	Record,
 	SignedActionHashed,
+	ValidationStatus
 } from '@holochain/client';
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 
 import { isPublic } from './core/cell/index.js';
 import { CellState } from './core/cell/state.js';

@@ -5,6 +5,7 @@ import {
 	getDhtOpType,
 	getEntryTypeString,
 	isWarrantOp,
+	hashAction,
 } from '@holochain-playground/simulator';
 import {
 	Action,
@@ -23,8 +24,9 @@ import {
 	HoloHash,
 	NewEntryAction,
 	Update,
+	CellMap,
+	HoloHashMap,
 } from '@holochain/client';
-import { CellMap, HoloHashMap, hashAction } from '@darksoil-studio/holochain-utils';
 
 function appendToArray<T>(
 	map: HoloHashMap<HoloHash, T[]>,

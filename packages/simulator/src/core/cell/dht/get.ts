@@ -17,15 +17,12 @@ import {
 	Update,
 	WarrantOp,
 	encodeHashToBase64,
-} from '@holochain/client';
-import {
 	DhtOpHash,
 	EntryDetails,
 	EntryDhtStatus,
 	ValidationReceipt,
-} from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap, hashAction } from '@darksoil-studio/holochain-utils';
-import { HashType, hash } from '@darksoil-studio/holochain-utils';
+	HoloHashMap
+} from '@holochain/client';
 import { isEqual, uniqWith } from 'lodash-es';
 
 import { areEqual } from '../../../processors/hash.js';
@@ -50,7 +47,7 @@ import {
 	LinkMetaVal,
 	getSysMetaValActionHash,
 } from '../state/metadata.js';
-import { getDhtOpAction, getDhtOpType, isWarrantOp } from '../utils.js';
+import { getDhtOpAction, getDhtOpType, isWarrantOp, hashAction } from '../utils.js';
 import { MissingDependenciesError } from '../workflows/app_validation/types.js';
 
 export function getValidationLimboDhtOps(
