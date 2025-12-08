@@ -2,27 +2,9 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    holonix.url = "github:holochain/holonix/main-0.5";
+    holonix.url = "github:holochain/holonix/main-0.6";
 
     nixpkgs.follows = "holonix/nixpkgs";
-
-    tauri-plugin-holochain.url =
-      "github:darksoil-studio/tauri-plugin-holochain/main-0.5";
-    tauri-plugin-holochain.inputs.holonix.follows = "holonix";
-    tauri-plugin-holochain.inputs.scaffolding.follows = "scaffolding";
-    scaffolding.url = "github:darksoil-studio/scaffolding/main-0.5";
-    scaffolding.inputs.holonix.follows = "holonix";
-  };
-
-  nixConfig = {
-    extra-substituters = [
-      "https://holochain-ci.cachix.org"
-      "https://darksoil-studio.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "holochain-ci.cachix.org-1:5IUSkZc0aoRS53rfkvH9Kid40NpyjwCMCzwRTXy+QN8="
-      "darksoil-studio.cachix.org-1:UEi+aujy44s41XL/pscLw37KEVpTEIn8N/kn7jO8rkc="
-    ];
   };
 
   outputs = inputs@{ ... }:
@@ -34,7 +16,6 @@
           packages = [
             pkgs.pnpm
             pkgs.nodejs_22
-            inputs'.tauri-plugin-holochain.packages.hc-pilot
           ];
         };
 
