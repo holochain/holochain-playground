@@ -7,14 +7,14 @@ import {
 } from '@holochain/client';
 
 import { areEqual } from '../../../processors/hash.js';
-import { CellState } from '../state.js';
+import { AuthoredDhtOpsValue, CellState } from '../state.js';
 import { getDhtOpAction, isWarrantOp, hashAction } from '../utils.js';
 
 /**
  * Returns the action hashes which don't have their DHTOps in the authoredDHTOps DB
  */
 export function getNewActions(state: CellState): Array<ActionHash> {
-	const dhtOps = Array.from(state.authoredDHTOps.values());
+	const dhtOps = (Array.from(state.authoredDHTOps.values()) as AuthoredDhtOpsValue[]);
 	const actionHashesAlreadyPublished = dhtOps
 		.filter(value => !isWarrantOp(value.op))
 		.map(value => (value.op as { ChainOp: ChainOp }).ChainOp)

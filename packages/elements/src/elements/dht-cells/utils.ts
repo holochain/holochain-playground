@@ -1,4 +1,4 @@
-import { Signal } from '@holochain/client';
+import { Signal } from 'signal-polyfill';
 
 let needsEnqueue = true;
 

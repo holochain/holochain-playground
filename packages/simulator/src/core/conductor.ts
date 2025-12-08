@@ -7,7 +7,7 @@ import {
 	encodeHashToBase64,
 	CellMap,
 	HoloHashMap,
-	HashType,
+	HoloHashType,
 	hashFromContentAndType
 } from '@holochain/client';
 import isEqual from 'lodash-es/isEqual.js';

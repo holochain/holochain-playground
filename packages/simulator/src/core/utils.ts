@@ -28,10 +28,10 @@ export function simulatedRolesToCellInfo(
 						value: {
 							cell_id: role.base_cell_id,
 							dna_modifiers: {
-								network_seed: registeredDnas.get(role.base_cell_id[0])
+								network_seed: (registeredDnas.get(role.base_cell_id[0]) as SimulatedDna)
 									.networkSeed,
 								properties: encode(
-									registeredDnas.get(role.base_cell_id[0]).properties,
+									(registeredDnas.get(role.base_cell_id[0]) as SimulatedDna).properties,
 								),
 							},
 							name: roleName,
@@ -48,8 +48,8 @@ export function simulatedRolesToCellInfo(
 					enabled: true,
 					original_dna_hash: role.base_cell_id[0],
 					dna_modifiers: {
-						network_seed: registeredDnas.get(clone[0]).networkSeed,
-						properties: encode(registeredDnas.get(clone[0]).properties),
+						network_seed: (registeredDnas.get(clone[0]) as SimulatedDna).networkSeed,
+						properties: encode((registeredDnas.get(clone[0]) as SimulatedDna).properties),
 					},
 					clone_id: cloneName,
 					name: roleName,

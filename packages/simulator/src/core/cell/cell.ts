@@ -53,6 +53,7 @@ import { incoming_dht_ops_task } from './workflows/incoming_dht_ops.js';
 import { publish_dht_ops_task } from './workflows/publish_dht_ops.js';
 import { triggeredWorkflowFromType } from './workflows/trigger.js';
 import { Workflow, WorkflowType, Workspace } from './workflows/workflows.js';
+import { SimulatedDna } from '../../dnas/simulated-dna.js';
 
 export type CellSignal = 'after-workflow-executed' | 'before-workflow-executed';
 export type CellSignalListener = (payload: any) => void;
@@ -101,7 +102,7 @@ export class Cell {
 	}
 
 	getSimulatedDna() {
-		return this.conductor.registeredDnas.get(this.dnaHash);
+		return this.conductor.registeredDnas.get(this.dnaHash) as SimulatedDna;
 	}
 
 	static async create(

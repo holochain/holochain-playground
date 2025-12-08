@@ -46,7 +46,7 @@ export class BootstrapService {
 		agentPubKey: AgentPubKey,
 		filteredAgents: AgentPubKey[] = [],
 	): Cell[] {
-		const dnaAgents = this.cells.agentsForDna(dnaHash);
+		const dnaAgents = this.cells.keysForDna(dnaHash);
 
 		const cells = dnaAgents.filter(
 			peerPubKey =>

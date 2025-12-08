@@ -27,9 +27,7 @@ import {
 	AsyncComputed,
 	AsyncResult,
 	AsyncSignal,
-	Signal,
 	joinAsync,
-	uniquify,
 } from 'async-signals';
 import isEqual from 'lodash-es/isEqual.js';
 
@@ -37,6 +35,8 @@ import { ConnectedConductorStore } from './connected-playground-store.js';
 import { SimulatedConductorStore } from './simulated-playground-store.js';
 import { joinAsyncCellMap, mapCellValues } from './utils.js';
 import { watch } from '../elements/utils/watch.js';
+import { Signal } from 'signal-polyfill';
+import uniqBy from 'lodash-es/uniqBy.js';
 
 export interface CellStore {
 	sourceChain: AsyncSignal<Record[]>;
@@ -222,7 +222,7 @@ export abstract class PlaygroundStore<
 		const allCells = this.allCells.get();
 		if (allCells.status !== 'completed') return allCells;
 
-		const value = uniquify(allCells.value.cellIds().map(cellId => cellId[0]));
+		const value = uniqBy(allCells.value.keys().map(cellId => cellId[0]), encodeHashToBase64);
 		return {
 			status: 'completed',
 			value,

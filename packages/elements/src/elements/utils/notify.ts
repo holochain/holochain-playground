@@ -2,7 +2,7 @@ import { mdiAlertCircleOutline, mdiInformationOutline } from "@mdi/js";
 import { wrapPathInSvg } from "./icons.js";
 
 // Always escape HTML for text arguments!
-function escapeHtml(html) {
+function escapeHtml(html: string) {
   const div = document.createElement("div");
   div.textContent = html;
   return div.innerHTML;

@@ -31,7 +31,7 @@ export function extractEntry(record: Record): Entry | undefined {
 
 export function hashEntry(entry: Entry): EntryHash {
 	if (entry.entry_type === 'Agent') return entry.entry;
-	return hashFromContentAndType(entry, HoloHashType.ENTRY);
+	return hashFromContentAndType(entry, HoloHashType.Entry);
 }
 
 export function getAppEntryType(

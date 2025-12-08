@@ -1,5 +1,6 @@
 import {
 	Dictionary,
+	SimulatedDna,
 	SimulatedHappBundle,
 } from '@holochain-playground/simulator';
 import { html } from 'lit';
@@ -155,10 +156,10 @@ export function adminApi(
 
 						const propertyNames = args['cellRole']
 							? Object.keys(
-									conductorStore.conductor.registeredDnas.get(
+									(conductorStore.conductor.registeredDnas.get(
 										conductorStore.conductor.installedHapps[args.installedAppId]
 											.roles[args.cellRole].base_cell_id[0],
-									).properties,
+									) as SimulatedDna).properties,
 								)
 							: [];
 						return html`<div class="column">

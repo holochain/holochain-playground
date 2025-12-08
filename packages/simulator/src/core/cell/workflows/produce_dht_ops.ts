@@ -22,7 +22,7 @@ export const produce_dht_ops = async (
 		const dhtOps = recordToDhtOps(record);
 
 		for (const dhtOp of dhtOps) {
-			const dhtOpHash = hashFromContentAndType(dhtOp, HoloHashType.DHTOP);
+			const dhtOpHash = hashFromContentAndType(dhtOp, HoloHashType.DhtOp);
 			const dhtOpValue = {
 				op: dhtOp,
 				last_publish_time: undefined,

@@ -1,4 +1,4 @@
-import { Signal } from "@holochain/client";
+import { Signal } from "signal-polyfill";
 
 export function watch<T>(
   signal: Signal.State<T> | Signal.Computed<T>,

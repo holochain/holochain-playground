@@ -8,6 +8,7 @@ import {
 	WorkflowType,
 	Workspace,
 } from './workflows.js';
+import { AuthoredDhtOpsValue } from '../state.js';
 
 // From https://github.com/holochain/holochain/blob/develop/crates/holochain/src/core/workflow/publish_dht_ops_workflow.rs
 export const publish_dht_ops = async (
@@ -26,17 +27,17 @@ export const publish_dht_ops = async (
 
 		if (!dhtOpsByBasis.has(basis)) dhtOpsByBasis.set(basis, new HoloHashMap());
 
-		dhtOpsByBasis.get(basis).set(dhtOpHash, dhtOp);
+		(dhtOpsByBasis.get(basis) as HoloHashMap<HoloHash, DhtOp>).set(dhtOpHash, dhtOp);
 	}
 
-	const promises = Array.from(dhtOpsByBasis.entries()).map(
+	const promises = (Array.from(dhtOpsByBasis.entries()) as [HoloHash, HoloHashMap<HoloHash, DhtOp>][]).map(
 		async ([basis, dhtOps]) => {
 			try {
 				// Publish the operations
 				await workspace.p2p.publish(basis, dhtOps);
 
 				for (const dhtOpHash of dhtOps.keys()) {
-					workspace.state.authoredDHTOps.get(dhtOpHash).last_publish_time =
+					(workspace.state.authoredDHTOps.get(dhtOpHash) as AuthoredDhtOpsValue).last_publish_time =
 						Date.now() * 1000;
 				}
 			} catch (e) {

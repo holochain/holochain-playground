@@ -29,7 +29,7 @@ export class SimulatedPlaygroundContext extends BasePlaygroundContext<SimulatedP
 			this.simulatedHapp,
 		).then(conductors => {
 			store.conductors.set(conductors.map(c => new SimulatedConductorStore(c)));
-			store.activeDna.set(conductors[0].cells.cellIds()[0][0]);
+			store.activeDna.set(conductors[0].cells.keys()[0][0]);
 			this.dispatchEvent(
 				new CustomEvent('playground-ready', {
 					bubbles: true,

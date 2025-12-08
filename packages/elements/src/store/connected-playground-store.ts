@@ -17,7 +17,6 @@ import {
 	Record,
 	decodeHashFromBase64,
 	encodeHashToBase64,
-	Signal,
 	ValidationStatus,
 	CellMap
 } from '@holochain/client';
@@ -33,6 +32,7 @@ import {
 } from './playground-store.js';
 import { pollingSignal } from './polling-store.js';
 import { cellChanges } from './utils.js';
+import { Signal } from 'signal-polyfill';
 
 export class ConnectedCellStore implements CellStore {
 	private _state: AsyncSignal<FullStateDump>;
@@ -226,7 +226,7 @@ export class ConnectedConductorStore
 			const cellIds = await adminWs.listCellIds();
 
 			const { cellsToAdd, cellsToRemove } = cellChanges(
-				currentCells.cellIds(),
+				currentCells.keys(),
 				cellIds,
 			);
 

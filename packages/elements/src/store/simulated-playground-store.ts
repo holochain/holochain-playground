@@ -29,7 +29,6 @@ import {
 	DhtOp,
 	DnaModifiers,
 	Record,
-	Signal,
 	ValidationStatus,
 	CellMap
 } from '@holochain/client';
@@ -44,6 +43,7 @@ import {
 } from './playground-store.js';
 import { pollingSignal } from './polling-store.js';
 import { cellChanges } from './utils.js';
+import { Signal } from 'signal-polyfill';
 
 export class SimulatedCellStore implements CellStore {
 	private _sourceChain = new Signal.State<Record[]>([]);
@@ -183,13 +183,13 @@ export class SimulatedConductorStore
 		this.badAgent = new Signal.Computed(() => this.conductor.badAgent);
 
 		this.happs = pollingSignal(async apps => {
-			return Object.values(this.conductor.installedHapps).map(
+			return (Object.values(this.conductor.installedHapps) as InstalledHapp[]).map(
 				h =>
 					({
 						agent_pub_key: h.agent_pub_key,
 						installed_app_id: h.app_id,
 						status: {
-							type: 'running',
+							type: 'enabled',
 						},
 						cell_info: simulatedRolesToCellInfo(
 							h.roles,
@@ -207,8 +207,8 @@ export class SimulatedConductorStore
 
 	buildStores(conductor: Conductor, currentCells: CellMap<SimulatedCellStore>) {
 		const { cellsToAdd, cellsToRemove } = cellChanges(
-			currentCells.cellIds(),
-			conductor.cells.cellIds(),
+			currentCells.keys(),
+			conductor.cells.keys(),
 		);
 
 		for (const cellId of cellsToAdd) {
@@ -267,7 +267,7 @@ export class SimulatedPlaygroundStore extends PlaygroundStore<SimulatedConductor
 		);
 		this.simulatedHapps = new Signal.State({ [initialHapp.name]: initialHapp });
 		if (initialConductors.length > 0) {
-			this.activeDna.set(initialConductors[0].cells.cellIds()[0][0]);
+			this.activeDna.set(initialConductors[0].cells.keys()[0][0]);
 		}
 	}
 

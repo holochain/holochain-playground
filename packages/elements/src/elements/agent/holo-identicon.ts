@@ -1,13 +1,35 @@
 import renderIcon from "@holo-host/identicon";
-import { HoloHash, encodeHashToBase64, HoloHashMap, LazyHoloHashMap } from "@holochain/client";
+import { HoloHash, encodeHashToBase64, HoloHashMap, LazyHoloHashMap, decodeHashFromBase64 } from "@holochain/client";
 import { localized, msg } from "@lit/localize";
 import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
 import SlTooltip from "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
-import { LitElement, PropertyValues, css, html } from "lit";
+import { LitElement, PropertyValues, PropertyDeclaration, css, html } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
-import { hashProperty } from "../holo-hash-property.js";
+function hashProperty(
+	attributeName: string,
+): PropertyDeclaration<HoloHash | null, unknown> {
+	return {
+		attribute: attributeName,
+		type: Object,
+		hasChanged: (oldVal: HoloHash | null, newVal: HoloHash | null) =>
+			oldVal?.toString() !== newVal?.toString(),
+		converter: {
+			fromAttribute: (value) => {
+        if(value && value.length > 0) {
+          try {
+            return decodeHashFromBase64(value);
+          } catch { }
+        }
+        
+        return null;
+      },
+			toAttribute: hash => hash && encodeHashToBase64(hash),
+		},
+		reflect: true,
+	};
+}
 
 class MemoMap<K, V> {
   map = new Map<K, V>();
@@ -115,12 +137,12 @@ export class HoloIdenticon extends LitElement {
         changedValues.get("hash") !== undefined
           ? changedValues.get("hash")
           : this.hash;
-      const drawnCanvas = canvasCache.get(newHash).get(this.size);
+      const drawnCanvas = (canvasCache.get(newHash) as MemoMap<number, HTMLCanvasElement>).get(this.size) as HTMLCanvasElement;
 
       this._canvas.width = drawnCanvas.width;
       this._canvas.height = drawnCanvas.height;
 
-      this._canvas.getContext("2d").drawImage(drawnCanvas, 0, 0);
+      this._canvas.getContext("2d")?.drawImage(drawnCanvas, 0, 0);
     }
   }
 

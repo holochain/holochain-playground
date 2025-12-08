@@ -48,8 +48,8 @@ export class MiddlewareController implements ReactiveController {
 		const cells = this.cellMap();
 
 		const { cellsToAdd, cellsToRemove } = cellChanges(
-			this._cellSubscriptions.cellIds(),
-			cells.cellIds(),
+			this._cellSubscriptions.keys(),
+			cells.keys(),
 		);
 
 		for (const cellId of cellsToAdd) {
@@ -101,7 +101,7 @@ export class MiddlewareController implements ReactiveController {
 	}
 
 	hostDisconnected() {
-		this._cellSubscriptions.cellIds().forEach(c => this.unsubscribe(c));
+		this._cellSubscriptions.keys().forEach(c => this.unsubscribe(c));
 	}
 
 	unsubscribe(cellId: CellId) {

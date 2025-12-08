@@ -17,7 +17,8 @@ import {
 	RecordDetails,
 	HoloHashType,
 	HoloHashMap,
-	getHashType
+	getHashType,
+	Action
 } from '@holochain/client';
 
 import { areEqual } from '../../../processors/hash.js';
@@ -62,7 +63,8 @@ export class Cascade {
 
 		// TODO only return local if GetOptions::content() is given
 		if (isPresent && options.strategy === GetStrategy.Contents) {
-			const signed_action = this.state.CAS.get(hash);
+			const signed_action: SignedActionHashed
+			 = this.state.CAS.get(hash);
 			return signed_action;
 		}
 
@@ -118,7 +120,7 @@ export class Cascade {
 								.entry_hash,
 							hash,
 						),
-				);
+				) as SignedActionHashed;
 
 				return {
 					entry,
@@ -263,10 +265,13 @@ export class Cascade {
 			}
 		}
 
-		return Array.from(createLinks.values()).map(({ create, deletes }) => [
+		return (Array.from(createLinks.values()) as {
+				create: SignedActionHashed<Action>;
+				deletes: Array<SignedActionHashed>;
+		}[]).map(({ create, deletes }) => [
 			create,
 			deletes,
-		]);
+		]) as LinkDetails;
 	}
 
 	public async dht_get_agent_activity(

@@ -78,7 +78,7 @@ export const app_validation = async (
 	]);
 
 	for (const dhtOpHash of pendingDhtOps.keys()) {
-		const validationLimboValue = pendingDhtOps.get(dhtOpHash);
+		const validationLimboValue = pendingDhtOps.get(dhtOpHash) as ValidationLimboValue;
 		if (isWarrantOp(validationLimboValue.op)) {
 			continue;
 		}

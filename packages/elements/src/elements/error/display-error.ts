@@ -4,8 +4,8 @@ import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { wrapPathInSvg } from '../icon.js';
-import { sharedStyles } from '../shared-styles.js';
+import { wrapPathInSvg } from '../utils/icons.js';
+import { sharedStyles } from '../utils/shared-styles.js';
 
 @customElement('display-error')
 export class DisplayError extends LitElement {

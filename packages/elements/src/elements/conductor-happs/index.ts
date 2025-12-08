@@ -1,7 +1,7 @@
 import '@alenaksu/json-viewer';
 import { AsyncComputed } from 'async-signals';
 import {
-	AppInfoStatus,
+	AppStatus,
 	CellInfo,
 	CellType,
 	DnaHash,
@@ -84,19 +84,15 @@ export class ConductorHapps extends PlaygroundElement {
 		`;
 	}
 
-	renderHappStatus(status: AppInfoStatus) {
-		if (status.type === 'running') {
-			return html`<sl-tag variant="success">Running</sl-tag>`;
+	renderHappStatus(status: AppStatus) {
+		if (status.type === 'enabled') {
+			return html`<sl-tag variant="success">Enabled</sl-tag>`;
 		}
 		if (status.type === 'awaiting_memproofs') {
 			return html`<sl-tag variant="neutral">Awaiting Memproofs</sl-tag>`;
 		}
-
 		if (status.type === 'disabled') {
 			return html`<sl-tag variant="danger">Disabled</sl-tag>`;
-		}
-		if (status.type === 'paused') {
-			return html`<sl-tag variant="warning">Paused</sl-tag>`;
 		}
 	}
 

@@ -1,7 +1,6 @@
 import '@alenaksu/json-viewer';
 import {
 	AsyncComputed,
-	Signal,
 } from 'async-signals';
 import { areEqual } from '@holochain-playground/simulator';
 import { AnyDhtHash, encodeHashToBase64, HoloHashMap } from '@holochain/client';
@@ -21,6 +20,7 @@ import { shortenStrRec } from '../utils/hash.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { wrapPathInSvg } from '../utils/icons.js';
 import '../error/display-error.js';
+import { Signal } from 'signal-polyfill';
 
 type SearchResults = HoloHashMap<
 	AnyDhtHash,
