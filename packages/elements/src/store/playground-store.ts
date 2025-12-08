@@ -5,6 +5,7 @@ import {
 	getDhtOpEntry,
 	getDhtOpType,
 	isWarrantOp,
+	hashAction,
 } from '@holochain-playground/simulator';
 import {
 	ActionHashed,
@@ -19,24 +20,23 @@ import {
 	NewEntryAction,
 	Record,
 	encodeHashToBase64,
+	ValidationStatus,
+	CellMap
 } from '@holochain/client';
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import {
 	AsyncComputed,
 	AsyncResult,
 	AsyncSignal,
-	Signal,
 	joinAsync,
-	joinAsyncMap,
-	uniquify,
-	watch,
-} from '@darksoil-studio/holochain-signals';
-import { CellMap, HashType, hash, hashAction } from '@darksoil-studio/holochain-utils';
+} from 'async-signals';
 import isEqual from 'lodash-es/isEqual.js';
 
 import { ConnectedConductorStore } from './connected-playground-store.js';
 import { SimulatedConductorStore } from './simulated-playground-store.js';
 import { joinAsyncCellMap, mapCellValues } from './utils.js';
+import { watch } from '../elements/utils/watch.js';
+import { Signal } from 'signal-polyfill';
+import uniqBy from 'lodash-es/uniqBy.js';
 
 export interface CellStore {
 	sourceChain: AsyncSignal<Record[]>;
@@ -222,7 +222,7 @@ export abstract class PlaygroundStore<
 		const allCells = this.allCells.get();
 		if (allCells.status !== 'completed') return allCells;
 
-		const value = uniquify(allCells.value.cellIds().map(cellId => cellId[0]));
+		const value = uniqBy(allCells.value.keys().map(cellId => cellId[0]), encodeHashToBase64);
 		return {
 			status: 'completed',
 			value,

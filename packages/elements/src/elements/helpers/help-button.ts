@@ -3,9 +3,10 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
 import SlDialog from '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
 import { LitElement, html } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
+
+import { wrapPathInSvg } from '../utils/icons.js';
 
 @customElement('help-button')
 export class HelpButton extends LitElement {

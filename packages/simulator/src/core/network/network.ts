@@ -1,5 +1,4 @@
-import { AgentPubKey, CellId, DnaHash } from '@holochain/client';
-import { CellMap } from '@darksoil-studio/holochain-utils';
+import { AgentPubKey, CellId, DnaHash, CellMap } from '@holochain/client';
 
 import { BootstrapService } from '../../bootstrap/bootstrap-service.js';
 import { Cell } from '../cell/cell.js';

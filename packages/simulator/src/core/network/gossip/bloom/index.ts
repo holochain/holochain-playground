@@ -1,5 +1,4 @@
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
+import { DhtOp, DhtOpHash, HoloHash, HoloHashMap } from '@holochain/client';
 
 import { sleep } from '../../../../executor/delay-middleware.js';
 import { getValidationReceipts } from '../../../cell/index.js';
@@ -33,7 +32,7 @@ export class SimpleBloomMod {
 	async run_one_iteration(): Promise<void> {
 		const localDhtOpsHashes = Array.from(
 			this.p2pCell.cell._state.integratedDHTOps.keys(),
-		);
+		) as HoloHash[];
 		const localDhtOps =
 			this.p2pCell.cell.handle_fetch_op_hash_data(localDhtOpsHashes);
 
@@ -45,7 +44,7 @@ export class SimpleBloomMod {
 		for (const dhtOpHash of localDhtOps.keys()) {
 			const receipts = getValidationReceipts(dhtOpHash)(state);
 			dhtOpData.set(dhtOpHash, {
-				op: localDhtOps.get(dhtOpHash),
+				op: localDhtOps.get(dhtOpHash) as DhtOp,
 				validation_receipts: receipts,
 			});
 		}

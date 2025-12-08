@@ -1,6 +1,4 @@
-import { AgentPubKey, DhtOp, DnaHash } from '@holochain/client';
-import { AnyDhtHashB64, DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
+import { AgentPubKey, DhtOp, DnaHash, AnyDhtHashB64, DhtOpHash, HoloHashMap } from '@holochain/client';
 
 import { GetOptions } from '../../types.js';
 import { Cell } from '../cell/cell.js';

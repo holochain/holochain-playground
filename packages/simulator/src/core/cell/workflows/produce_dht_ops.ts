@@ -1,4 +1,4 @@
-import { HashType, hash } from '@darksoil-studio/holochain-utils';
+import { HoloHashType, hashFromContentAndType } from '@holochain/client';
 
 import { getNewActions } from '../source-chain/get.js';
 import { getRecord } from '../source-chain/utils.js';
@@ -22,7 +22,7 @@ export const produce_dht_ops = async (
 		const dhtOps = recordToDhtOps(record);
 
 		for (const dhtOp of dhtOps) {
-			const dhtOpHash = hash(dhtOp, HashType.DHTOP);
+			const dhtOpHash = hashFromContentAndType(dhtOp, HoloHashType.DhtOp);
 			const dhtOpValue = {
 				op: dhtOp,
 				last_publish_time: undefined,

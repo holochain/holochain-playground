@@ -1,7 +1,7 @@
-import { watch } from '@darksoil-studio/holochain-signals';
 import {
 	ConnectedPlaygroundStore,
 	sharedStyles,
+	watch,
 } from '@holochain-playground/elements';
 import '@holochain-playground/elements';
 import { mdiMagnify, mdiMenu } from '@mdi/js';

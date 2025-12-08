@@ -4,7 +4,7 @@ import {
 	SimulatedDna,
 	SimulatedZome,
 } from '@holochain-playground/simulator';
-import { decodeHashFromBase64, encodeHashToBase64 } from '@holochain/client';
+import { decodeHashFromBase64, encodeHashToBase64, CellMap, getHashType } from '@holochain/client';
 import { mdiAlertOutline, mdiCheckCircleOutline } from '@mdi/js';
 import '@shoelace-style/shoelace/dist/components/card/card.js';
 import '@shoelace-style/shoelace/dist/components/copy-button/copy-button.js';
@@ -16,9 +16,6 @@ import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 import '@shoelace-style/shoelace/dist/components/tab/tab.js';
 import '@shoelace-style/shoelace/dist/components/tag/tag.js';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
-import { CellMap, isHash } from '@darksoil-studio/holochain-utils';
 import { css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { join } from 'lit/directives/join.js';
@@ -26,6 +23,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { cloneDeepWith } from 'lodash-es';
 
 import { PlaygroundElement } from '../../base/playground-element.js';
+import '../agent/holo-identicon.js';
 import {
 	SimulatedCellStore,
 	SimulatedConductorStore,
@@ -36,6 +34,17 @@ import '../helpers/call-functions.js';
 import { shortenStrRec } from '../utils/hash.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { ZomeFunctionResult } from './types.js';
+import { wrapPathInSvg } from '../utils/icons.js';
+
+function isHoloHash(hash: string): boolean {
+	const bytes = decodeHashFromBase64(hash)
+	try {
+		getHashType(bytes);
+		return true;
+	} catch {
+		return false;
+	}
+}
 
 type Dictionary<T> = Record<string, T>;
 
@@ -95,7 +104,7 @@ export class CallZomeFns extends PlaygroundElement<SimulatedPlaygroundStore> {
 
 		try {
 			const deserializedPayload = cloneDeepWith(args, value => {
-				if (typeof value === 'string' && isHash(value)) {
+				if (typeof value === 'string' && isHoloHash(value)) {
 					return decodeHashFromBase64(value);
 				}
 			});

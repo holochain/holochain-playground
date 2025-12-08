@@ -5,9 +5,9 @@ import {
 	LinkType,
 	NewEntryAction,
 	Timestamp,
+	EntryDhtStatus,
+	HoloHashMap
 } from '@holochain/client';
-import { EntryDhtStatus } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 
 // From https://github.com/holochain/holochain/blob/develop/crates/holochain/src/core/state/metadata.rs
 

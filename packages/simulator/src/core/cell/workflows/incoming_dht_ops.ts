@@ -1,6 +1,4 @@
-import { AgentPubKey, DhtOp } from '@holochain/client';
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
+import { AgentPubKey, DhtOp, DhtOpHash, HoloHashMap } from '@holochain/client';
 
 import { hasDhtOpBeenProcessed } from '../dht/get.js';
 import { putValidationLimboValue } from '../dht/put.js';

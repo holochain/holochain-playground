@@ -17,15 +17,13 @@ import {
 	Update,
 	WarrantOp,
 	encodeHashToBase64,
-} from '@holochain/client';
-import {
 	DhtOpHash,
 	EntryDetails,
 	EntryDhtStatus,
 	ValidationReceipt,
-} from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap, hashAction } from '@darksoil-studio/holochain-utils';
-import { HashType, hash } from '@darksoil-studio/holochain-utils';
+	HoloHashMap,
+	HoloHash
+} from '@holochain/client';
 import { isEqual, uniqWith } from 'lodash-es';
 
 import { areEqual } from '../../../processors/hash.js';
@@ -38,6 +36,7 @@ import { ChainFilter } from '../../hdk/host-fn/must_get_agent_activity.js';
 import { GetLinksResponse } from '../cascade/types.js';
 import { DepsMissing } from '../index.js';
 import {
+	AuthoredDhtOpsValue,
 	CellState,
 	IntegratedDhtOpsValue,
 	IntegrationLimboValue,
@@ -50,7 +49,7 @@ import {
 	LinkMetaVal,
 	getSysMetaValActionHash,
 } from '../state/metadata.js';
-import { getDhtOpAction, getDhtOpType, isWarrantOp } from '../utils.js';
+import { getDhtOpAction, getDhtOpType, isWarrantOp, hashAction } from '../utils.js';
 import { MissingDependenciesError } from '../workflows/app_validation/types.js';
 
 export function getValidationLimboDhtOps(
@@ -72,8 +71,9 @@ export function getValidationLimboDhtOps(
 export const getValidationReceipts =
 	(dhtOpHash: DhtOpHash) =>
 	(state: CellState): ValidationReceipt[] => {
-		return state.validationReceipts.has(dhtOpHash)
-			? Array.from(state.validationReceipts.get(dhtOpHash).values())
+		const receipts = state.validationReceipts.get(dhtOpHash);
+		return receipts !== undefined
+			? Array.from(receipts.values())
 			: [];
 	};
 
@@ -202,7 +202,7 @@ export function getActionModifiers(
 }
 
 export function getAllHeldEntries(state: CellState): AnyDhtHash[] {
-	const newEntryActions = Array.from(state.integratedDHTOps.values())
+	const newEntryActions = (Array.from(state.integratedDHTOps.values()) as IntegratedDhtOpsValue[])
 		.filter(dhtOpValue => !isWarrantOp(dhtOpValue.op))
 		.map(dhtOpValue => (dhtOpValue.op as { ChainOp: ChainOp }).ChainOp)
 		.filter(chainOp => getDhtOpType(chainOp) === ChainOpType.StoreEntry)
@@ -216,7 +216,7 @@ export function getAllHeldEntries(state: CellState): AnyDhtHash[] {
 }
 
 export function getAllHeldActions(state: CellState): ActionHash[] {
-	const actions = Array.from(state.integratedDHTOps.values())
+	const actions = (Array.from(state.integratedDHTOps.values()) as IntegratedDhtOpsValue[])
 		.filter(dhtOpValue => !isWarrantOp(dhtOpValue.op))
 		.map(dhtOpValue => (dhtOpValue.op as { ChainOp: ChainOp }).ChainOp)
 		.filter(chainOp => getDhtOpType(chainOp) === ChainOpType.StoreRecord)
@@ -228,7 +228,7 @@ export function getAllHeldActions(state: CellState): ActionHash[] {
 }
 
 export function getAllAuthoredEntries(state: CellState): AnyDhtHash[] {
-	const allActions = Array.from(state.authoredDHTOps.values())
+	const allActions = (Array.from(state.authoredDHTOps.values()) as AuthoredDhtOpsValue[])
 		.filter(dhtOpValue => !isWarrantOp(dhtOpValue.op))
 		.map(dhtOpValue => (dhtOpValue.op as { ChainOp: ChainOp }).ChainOp)
 		.map(chainOp => getDhtOpAction(chainOp));
@@ -525,7 +525,7 @@ export function getLiveLinks(
 
 	const resultingLinks: Link[] = [];
 
-	for (const [linkHash, liveLink] of Array.from(linkAdds.entries())) {
+	for (const [linkHash, liveLink] of (Array.from(linkAdds.entries()) as [HoloHash, CreateLink | undefined][])) {
 		if (liveLink)
 			resultingLinks.push({
 				base: liveLink.base_address,

@@ -18,7 +18,6 @@ import {
 import '@shoelace-style/shoelace/dist/components/card/card.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
 import { css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -30,6 +29,7 @@ import {
 	SimulatedPlaygroundStore,
 } from '../../store/simulated-playground-store.js';
 import { sharedStyles } from '../utils/shared-styles.js';
+import { wrapPathInSvg } from '../utils/icons.js';
 
 @customElement('cell-tasks')
 export class CellTasks extends PlaygroundElement<SimulatedPlaygroundStore> {

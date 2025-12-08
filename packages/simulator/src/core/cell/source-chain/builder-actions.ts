@@ -19,10 +19,9 @@ import {
 	Timestamp,
 	Update,
 } from '@holochain/client';
-import { hashAction } from '@darksoil-studio/holochain-utils';
 
 import { CellState } from '../state.js';
-import { hashEntry } from '../utils.js';
+import { hashEntry, hashAction } from '../utils.js';
 import { getAuthor, getNextActionSeq, getTipOfChain } from './utils.js';
 
 export function buildShh(action: Action): SignedActionHashed {

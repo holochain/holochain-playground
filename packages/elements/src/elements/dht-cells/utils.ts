@@ -1,4 +1,4 @@
-import { Signal } from '@darksoil-studio/holochain-signals';
+import { Signal } from 'signal-polyfill';
 
 let needsEnqueue = true;
 

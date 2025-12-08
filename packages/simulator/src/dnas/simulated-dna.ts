@@ -1,4 +1,3 @@
-import { HashType, hash } from '@darksoil-studio/holochain-utils';
 import {
 	AgentPubKey,
 	AgentPubKeyB64,
@@ -8,6 +7,8 @@ import {
 	EntryVisibility,
 	HoloHash,
 	Record,
+	HoloHashType,
+	hashFromContentAndType 
 } from '@holochain/client';
 import { encode } from '@msgpack/msgpack';
 
@@ -83,7 +84,7 @@ export function hashDna(dna: SimulatedDna): HoloHash {
 		else return f.toString();
 	});
 
-	return hash(freeOfFunctionsDna, HashType.DNA);
+	return hashFromContentAndType(freeOfFunctionsDna, HoloHashType.Dna);
 }
 
 function deepMap<T, R>(obj: any, cb: (o: T, key: string) => R) {

@@ -8,6 +8,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { PlaygroundElement } from '../../base/playground-element.js';
 import { SimulatedPlaygroundStore } from '../../store/simulated-playground-store.js';
 import { sharedStyles } from '../utils/shared-styles.js';
+import '../error/display-error.js';
 
 export interface Step {
 	title: (context: PlaygroundElement) => string;

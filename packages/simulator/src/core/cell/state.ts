@@ -4,9 +4,10 @@ import {
 	DhtOp,
 	DnaHash,
 	HoloHash,
+	DhtOpHash,
+	ValidationReceipt,
+	HoloHashMap
 } from '@holochain/client';
-import { DhtOpHash, ValidationReceipt } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 
 import { location } from '../../processors/hash.js';
 import { DhtArc, contains } from '../network/dht_arc.js';
@@ -92,6 +93,6 @@ export function query_dht_ops(
 		if (dht_arc && !contains(dht_arc, location(dhtOpHash))) return false;
 	};
 
-	const ops = Array.from(integratedDhtOps.entries()).filter(isDhtOpsInFilter);
+	const ops = (Array.from(integratedDhtOps.entries()) as [HoloHash, IntegratedDhtOpsValue][]).filter(isDhtOpsInFilter);
 	return ops.map(op => op[0]);
 }

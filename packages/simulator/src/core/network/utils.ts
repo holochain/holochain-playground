@@ -1,9 +1,8 @@
-import { AgentPubKey, AnyDhtHash, ChainOp, DhtOp } from '@holochain/client';
-import { ValidationReceipt, ValidationStatus } from '@darksoil-studio/holochain-core-types';
+import { AgentPubKey, AnyDhtHash, ChainOp, DhtOp, ValidationReceipt, ValidationStatus } from '@holochain/client';
 import { uniq } from 'lodash-es';
 
 import { distance, location, wrap } from '../../processors/hash.js';
-import { CellState } from '../cell/state.js';
+import { CellState, IntegratedDhtOpsValue } from '../cell/state.js';
 import { getDhtOpAction, isWarrantOp } from '../cell/utils.js';
 
 export function getClosestNeighbors(
@@ -54,7 +53,7 @@ export function getBadActions(state: CellState): Array<BadAction> {
 	for (const [dhtOpHash, receipts] of state.validationReceipts.entries()) {
 		const myReceipt = receipts.get(state.agentPubKey);
 		if (myReceipt) {
-			const dhtOp = state.integratedDHTOps.get(dhtOpHash).op;
+			const dhtOp = (state.integratedDHTOps.get(dhtOpHash) as IntegratedDhtOpsValue).op;
 			const badAction: BadAction = {
 				badAgents: [],
 				op: dhtOp,

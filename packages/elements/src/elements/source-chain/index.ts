@@ -5,7 +5,6 @@ import {
 } from '@holochain/client';
 import '@scoped-elements/cytoscape';
 import '@shoelace-style/shoelace/dist/components/card/card.js';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
 import { css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -16,6 +15,7 @@ import '../helpers/help-button.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { graphStyles } from './graph.js';
 import { sourceChainNodes } from './processors.js';
+import '../agent/holo-identicon.js';
 
 /**
  * @element source-chain

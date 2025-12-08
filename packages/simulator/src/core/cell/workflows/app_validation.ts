@@ -16,7 +16,6 @@ import {
 	SignedActionHashed,
 	Update,
 } from '@holochain/client';
-import { HashType, hash, hashAction } from '@darksoil-studio/holochain-utils';
 import { isEqual } from 'lodash-es';
 
 import {
@@ -79,7 +78,7 @@ export const app_validation = async (
 	]);
 
 	for (const dhtOpHash of pendingDhtOps.keys()) {
-		const validationLimboValue = pendingDhtOps.get(dhtOpHash);
+		const validationLimboValue = pendingDhtOps.get(dhtOpHash) as ValidationLimboValue;
 		if (isWarrantOp(validationLimboValue.op)) {
 			continue;
 		}

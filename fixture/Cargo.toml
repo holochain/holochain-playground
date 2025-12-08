@@ -9,10 +9,10 @@ resolver = "2"
 members = ["dnas/*/zomes/coordinator/*", "dnas/*/zomes/integrity/*"]
 
 [workspace.dependencies]
-hdi = "0.6.0"
-hdk = "0.5.0"
-serde = "1.0.193"
-holochain_serialized_bytes = "*"
+hdi = "0.7.0"
+hdk = "0.6.0"
+holochain_serialized_bytes = "=0.0.56"
+serde = "1"
 
 [workspace.dependencies.posts]
 path = "dnas/forum/zomes/coordinator/posts"

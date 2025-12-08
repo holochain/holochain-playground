@@ -8,9 +8,10 @@ import {
 	LinkType,
 	RegisterAgentActivity,
 	encodeHashToBase64,
+	DhtOpHash,
+	HoloHashMap,
+	HoloHash
 } from '@holochain/client';
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 import { isEqual } from 'lodash-es';
 
 import { sleep } from '../../executor/delay-middleware.js';
@@ -129,7 +130,7 @@ export class P2pCell {
 		this.network.bootstrapService.removeCell(this.cellId);
 		this._gossipLoop.gossip_on = false;
 
-		for (const peer of Array.from(this.neighborConnections.keys())) {
+		for (const peer of (Array.from(this.neighborConnections.keys()) as HoloHash[])) {
 			if (this.neighborConnections.has(peer)) {
 				const connection = this.neighborConnections.get(peer) as Connection;
 				connection.close();
@@ -440,7 +441,7 @@ export class P2pCell {
 		if (
 			Array.from(this.neighborConnections.keys()).length <
 				this.neighborNumber / 2 &&
-			this.network.bootstrapService.cells.agentsForDna(dnaHash).length >
+			this.network.bootstrapService.cells.keysForDna(dnaHash).length >
 				this.neighborNumber / 2
 		) {
 			setTimeout(() => this.syncNeighbors(), 400);

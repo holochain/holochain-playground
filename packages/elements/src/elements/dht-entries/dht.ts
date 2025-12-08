@@ -5,6 +5,7 @@ import {
 	getDhtOpType,
 	getEntryTypeString,
 	isWarrantOp,
+	hashAction,
 } from '@holochain-playground/simulator';
 import {
 	Action,
@@ -23,8 +24,9 @@ import {
 	HoloHash,
 	NewEntryAction,
 	Update,
+	CellMap,
+	HoloHashMap,
 } from '@holochain/client';
-import { CellMap, HoloHashMap, hashAction } from '@darksoil-studio/holochain-utils';
 
 function appendToArray<T>(
 	map: HoloHashMap<HoloHash, T[]>,
@@ -33,7 +35,7 @@ function appendToArray<T>(
 ) {
 	if (!map.has(key)) map.set(key, []);
 
-	const previous_value = map.get(key);
+	const previous_value = map.get(key) as T[];
 	map.set(key, [...previous_value, value]);
 }
 
@@ -104,8 +106,8 @@ export function summarizeDht(
 			if (!visited.has(actionHash)) {
 				visited.set(actionHash, []);
 			}
-			if (!visited.get(actionHash).includes(dhtOpType)) {
-				visited.set(actionHash, [...visited.get(actionHash), dhtOpType]);
+			if (!(visited.get(actionHash) as string[]).includes(dhtOpType)) {
+				visited.set(actionHash, [...(visited.get(actionHash) as string[]), dhtOpType]);
 
 				actions.set(actionHash, action);
 
@@ -167,7 +169,7 @@ export function isEntryDeleted(
 	summary: DhtSummary,
 	entryHash: EntryHash,
 ): boolean {
-	const actions = summary.actionsByEntry.get(entryHash);
+	const actions = (summary.actionsByEntry.get(entryHash) as HoloHash[]);
 	const aliveActions = actions.filter(h => !summary.actionDeletes.has(h));
 
 	return aliveActions.length === 0;

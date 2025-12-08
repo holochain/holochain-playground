@@ -5,8 +5,7 @@ import {
 	MiddlewareSubscription,
 	SuccessMiddleware,
 } from '@holochain-playground/simulator';
-import { CellId } from '@holochain/client';
-import { CellMap } from '@darksoil-studio/holochain-utils';
+import { CellId, CellMap } from '@holochain/client';
 import { ReactiveController, ReactiveElement } from 'lit';
 
 import { cellChanges } from '../store/utils.js';
@@ -49,8 +48,8 @@ export class MiddlewareController implements ReactiveController {
 		const cells = this.cellMap();
 
 		const { cellsToAdd, cellsToRemove } = cellChanges(
-			this._cellSubscriptions.cellIds(),
-			cells.cellIds(),
+			this._cellSubscriptions.keys(),
+			cells.keys(),
 		);
 
 		for (const cellId of cellsToAdd) {
@@ -102,7 +101,7 @@ export class MiddlewareController implements ReactiveController {
 	}
 
 	hostDisconnected() {
-		this._cellSubscriptions.cellIds().forEach(c => this.unsubscribe(c));
+		this._cellSubscriptions.keys().forEach(c => this.unsubscribe(c));
 	}
 
 	unsubscribe(cellId: CellId) {

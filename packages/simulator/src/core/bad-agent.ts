@@ -1,4 +1,4 @@
-import { CellMap } from '@darksoil-studio/holochain-utils';
+import { CellMap } from '@holochain/client';
 
 import { SimulatedDna } from '../dnas/simulated-dna.js';
 

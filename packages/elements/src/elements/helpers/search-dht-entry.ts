@@ -1,13 +1,9 @@
 import '@alenaksu/json-viewer';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
 import {
 	AsyncComputed,
-	Signal,
-	SignalWatcher,
-} from '@darksoil-studio/holochain-signals';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
+} from 'async-signals';
 import { areEqual } from '@holochain-playground/simulator';
-import { AnyDhtHash, encodeHashToBase64 } from '@holochain/client';
+import { AnyDhtHash, encodeHashToBase64, HoloHashMap } from '@holochain/client';
 import { mdiHelpCircleOutline, mdiInformationOutline } from '@mdi/js';
 import { decode } from '@msgpack/msgpack';
 import { SlInput } from '@shoelace-style/shoelace';
@@ -22,6 +18,9 @@ import { PlaygroundElement } from '../../base/playground-element.js';
 import { summarizeDht } from '../dht-entries/dht.js';
 import { shortenStrRec } from '../utils/hash.js';
 import { sharedStyles } from '../utils/shared-styles.js';
+import { wrapPathInSvg } from '../utils/icons.js';
+import '../error/display-error.js';
+import { Signal } from 'signal-polyfill';
 
 type SearchResults = HoloHashMap<
 	AnyDhtHash,

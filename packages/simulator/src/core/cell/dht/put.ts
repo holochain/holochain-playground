@@ -14,13 +14,12 @@ import {
 	SignedActionHashed,
 	Update,
 	encodeHashToBase64,
-} from '@holochain/client';
-import {
 	DhtOpHash,
 	EntryDhtStatus,
 	ValidationReceipt,
-} from '@darksoil-studio/holochain-core-types';
-import { HashType, HoloHashMap, hash, hashAction } from '@darksoil-studio/holochain-utils';
+	HoloHashMap,
+	AgentPubKey
+} from '@holochain/client';
 import isEqual from 'lodash-es/isEqual.js';
 
 import {
@@ -41,6 +40,7 @@ import {
 	getDhtOpType,
 	getEntry,
 	isWarrantOp,
+	hashAction,
 } from '../utils.js';
 import { getActionsForEntry } from './get.js';
 
@@ -57,8 +57,8 @@ export const putValidationReceipt =
 			state.validationReceipts.set(dhtOpHash, new HoloHashMap());
 		}
 
-		state.validationReceipts
-			.get(dhtOpHash)
+		(state.validationReceipts
+			.get(dhtOpHash) as HoloHashMap<AgentPubKey, ValidationReceipt>)
 			.set(validationReceipt.validator, validationReceipt);
 	};
 
@@ -242,8 +242,8 @@ export const putSystemMetadata =
 			state.metadata.system_meta.set(basis, []);
 		}
 
-		if (!state.metadata.system_meta.get(basis).find(v => isEqual(v, value))) {
-			state.metadata.system_meta.get(basis).push(value);
+		if (!(state.metadata.system_meta.get(basis) as SysMetaVal[]).find(v => isEqual(v, value))) {
+			(state.metadata.system_meta.get(basis) as SysMetaVal[]).push(value);
 		}
 	};
 

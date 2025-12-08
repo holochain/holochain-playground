@@ -11,8 +11,10 @@ import {
 	DnaHash,
 	NewEntryAction,
 	SignedActionHashed,
+	HoloHashMap,
+	getHashType,
+	HoloHashType
 } from '@holochain/client';
-import { HashType, HoloHashMap, getHashType } from '@darksoil-studio/holochain-utils';
 import { cloneDeep } from 'lodash-es';
 
 export function selectCells(dna: DnaHash, conductor: Conductor): Cell[] {
@@ -30,7 +32,7 @@ export function selectGlobalDHTOpsCount(cells: Cell[]): number {
 }
 
 export function selectHoldingCells(hash: AnyDhtHash, cells: Cell[]): Cell[] {
-	if (getHashType(hash) === HashType.ENTRY)
+	if (getHashType(hash) === HoloHashType.Entry)
 		return cells.filter(cell => isHoldingEntry(cell._state, hash));
 	return cells.filter(cell => isHoldingRecord(cell._state, hash));
 }

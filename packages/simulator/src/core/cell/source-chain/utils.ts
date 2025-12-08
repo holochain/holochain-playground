@@ -18,12 +18,12 @@ import {
 	SignedActionHashed,
 	Update,
 	ZomeCallCapGrant,
+	DhtOpHash,
+	HoloHashMap
 } from '@holochain/client';
-import { DhtOpHash } from '@darksoil-studio/holochain-core-types';
-import { HoloHashMap } from '@darksoil-studio/holochain-utils';
 
 import { areEqual } from '../../../processors/hash.js';
-import { CellState } from '../state.js';
+import { AuthoredDhtOpsValue, CellState } from '../state.js';
 import { getAllAuthoredActions } from './get.js';
 
 export function getTipOfChain(cellState: CellState): ActionHash {
@@ -98,7 +98,7 @@ export function getNonPublishedDhtOps(
 ): HoloHashMap<DhtOpHash, DhtOp> {
 	const nonPublishedDhtOps: HoloHashMap<DhtOpHash, DhtOp> = new HoloHashMap();
 	for (const dhtOpHash of state.authoredDHTOps.keys()) {
-		const authoredValue = state.authoredDHTOps.get(dhtOpHash);
+		const authoredValue = state.authoredDHTOps.get(dhtOpHash) as AuthoredDhtOpsValue;
 		if (authoredValue.last_publish_time === undefined) {
 			nonPublishedDhtOps.set(dhtOpHash, authoredValue.op);
 		}
@@ -152,9 +152,9 @@ export function valid_cap_grant(
 		}
 	}
 
-	const aliveCapGrants: Array<ZomeCallCapGrant> = Array.from(
+	const aliveCapGrants: Array<ZomeCallCapGrant> = (Array.from(
 		aliveCapGrantsActions.values(),
-	).map(
+	) as SignedActionHashed<NewEntryAction>[]).map(
 		sah =>
 			(state.CAS.get(sah.hashed.content.entry_hash) as Entry)
 				.entry as ZomeCallCapGrant,

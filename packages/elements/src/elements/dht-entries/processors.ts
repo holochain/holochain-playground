@@ -8,14 +8,13 @@ import {
 	NewEntryAction,
 	decodeHashFromBase64,
 	encodeHashToBase64,
-} from '@holochain/client';
-import {
 	CellMap,
-	HashType,
 	HoloHashMap,
 	getHashType,
-	retype,
-} from '@darksoil-studio/holochain-utils';
+	HoloHashType,
+	hashFrom32AndType,
+	sliceCore32
+} from '@holochain/client';
 import uniq from 'lodash-es/uniq.js';
 
 import { shortenStrRec } from '../utils/hash.js';
@@ -41,7 +40,7 @@ export function allEntries(
 	// Add entry nodes
 
 	for (const [entryHash, entry] of summary.entries.entries()) {
-		const entryType = summary.entryTypes.get(entryHash);
+		const entryType = summary.entryTypes.get(entryHash) as string;
 
 		if (!excludedEntryTypes.includes(entryType)) {
 			const strEntryHash = encodeHashToBase64(entryHash);
@@ -62,7 +61,7 @@ export function allEntries(
 			});
 			nodesDrawn.set(entryHash, true);
 
-			const actions = summary.actionsByEntry.get(entryHash);
+			const actions = summary.actionsByEntry.get(entryHash) as HoloHash[];
 			const action = summary.actions.get(actions[0]);
 			if (getAppEntryType((action as NewEntryAction).entry_type)) {
 				const implicitLinks = getEmbeddedReferences(
@@ -73,7 +72,7 @@ export function allEntries(
 				for (const implicitLink of implicitLinks) {
 					if (
 						!excludedEntryTypes.includes(
-							summary.entryTypes.get(decodeHashFromBase64(implicitLink.target)),
+							summary.entryTypes.get(decodeHashFromBase64(implicitLink.target)) as string,
 						)
 					) {
 						edges.push({
@@ -108,10 +107,10 @@ export function allEntries(
 
 	for (const [baseAddress, links] of summary.links.entries()) {
 		let entryHash;
-		if (getHashType(baseAddress) === HashType.ENTRY) {
+		if (getHashType(baseAddress) === HoloHashType.Entry) {
 			entryHash = baseAddress;
-		} else if (getHashType(baseAddress) === HashType.ACTION) {
-			const action: Action = summary.actions.get(baseAddress);
+		} else if (getHashType(baseAddress) === HoloHashType.Action) {
+			const action: Action = summary.actions.get(baseAddress) as Action;
 			if (action && (action as NewEntryAction).entry_hash) {
 				entryHash = (action as NewEntryAction).entry_hash;
 			}
@@ -119,17 +118,17 @@ export function allEntries(
 
 		if (
 			!entryHash ||
-			!excludedEntryTypes.includes(summary.entryTypes.get(entryHash))
+			!excludedEntryTypes.includes(summary.entryTypes.get(entryHash) as string)
 		) {
 			depsNotHeld.set(baseAddress, true);
 
 			const strBaseHash = encodeHashToBase64(baseAddress);
 			for (const link of links) {
 				let targetEntryHash;
-				if (getHashType(link.target_address) === HashType.ENTRY) {
+				if (getHashType(link.target_address) === HoloHashType.Entry) {
 					targetEntryHash = link.target_address;
-				} else if (getHashType(link.target_address) === HashType.ACTION) {
-					const action: Action = summary.actions.get(link.target_address);
+				} else if (getHashType(link.target_address) === HoloHashType.Action) {
+					const action: Action = summary.actions.get(link.target_address) as Action;
 					if (action && (action as NewEntryAction).entry_hash) {
 						targetEntryHash = (action as NewEntryAction).entry_hash;
 					}
@@ -137,7 +136,7 @@ export function allEntries(
 
 				if (
 					!targetEntryHash ||
-					!excludedEntryTypes.includes(summary.entryTypes.get(targetEntryHash))
+					!excludedEntryTypes.includes(summary.entryTypes.get(targetEntryHash) as string)
 				) {
 					const linkTag = simulatedDna ? link.tag : getLinkTagStr(link.tag);
 					const tag = JSON.stringify(linkTag);
@@ -166,11 +165,11 @@ export function allEntries(
 	// Add action nodes and updates edges
 
 	for (const [entryHash, actionHashes] of summary.actionsByEntry.entries()) {
-		if (!excludedEntryTypes.includes(summary.entryTypes.get(entryHash))) {
+		if (!excludedEntryTypes.includes(summary.entryTypes.get(entryHash) as string)) {
 			const strEntryHash = encodeHashToBase64(entryHash);
 
 			for (const actionHash of actionHashes) {
-				const action = summary.actions.get(actionHash);
+				const action = summary.actions.get(actionHash) as Action;
 				const strActionHash = encodeHashToBase64(actionHash);
 
 				nodes.push({
@@ -199,7 +198,7 @@ export function allEntries(
 				for (const updateActionHash of summary.actionUpdates.get(actionHash) ||
 					[]) {
 					const strUpdateActionHash = encodeHashToBase64(updateActionHash);
-					const updateAction = summary.actions.get(updateActionHash);
+					const updateAction = summary.actions.get(updateActionHash) as Action;
 
 					if (!nodesDrawn.get(updateActionHash)) {
 						nodes.push({
@@ -229,7 +228,7 @@ export function allEntries(
 				for (const deleteActionHash of summary.actionDeletes.get(actionHash) ||
 					[]) {
 					const strDeleteActionHash = encodeHashToBase64(deleteActionHash);
-					const deleteAction = summary.actions.get(deleteActionHash);
+					const deleteAction = summary.actions.get(deleteActionHash) as Action;
 
 					if (!nodesDrawn.get(deleteActionHash)) {
 						nodes.push({
@@ -311,12 +310,12 @@ export function allEntries(
 }
 
 function hasHash(summary: DhtSummary, hash: HoloHash): HoloHash | undefined {
-	if (getHashType(hash) === HashType.ACTION) {
+	if (getHashType(hash) === HoloHashType.Action) {
 		return summary.actions.has(hash) ? hash : undefined;
 	} else {
 		let hashToCheck = hash;
-		if (getHashType(hash) === HashType.AGENT) {
-			hashToCheck = retype(hash, HashType.ENTRY);
+		if (getHashType(hash) === HoloHashType.Agent) {
+			hashToCheck = hashFrom32AndType(sliceCore32(hash), HoloHashType.Entry);
 		}
 		return summary.entries.has(hashToCheck) ? hashToCheck : undefined;
 	}

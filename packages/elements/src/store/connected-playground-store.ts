@@ -1,15 +1,7 @@
-import { ValidationStatus } from '@darksoil-studio/holochain-core-types';
 import {
 	AsyncComputed,
 	AsyncSignal,
-	Signal,
-    watch,
-} from '@darksoil-studio/holochain-signals';
-import {
-	AGENT_PREFIX,
-	CellMap,
-	locationBytes,
-} from '@darksoil-studio/holochain-utils';
+} from 'async-signals';
 import { ValidationLimboStatus } from '@holochain-playground/simulator';
 import {
 	AdminWebsocket,
@@ -25,6 +17,8 @@ import {
 	Record,
 	decodeHashFromBase64,
 	encodeHashToBase64,
+	ValidationStatus,
+	CellMap
 } from '@holochain/client';
 import { Base64 } from 'js-base64';
 import isEqual from 'lodash-es/isEqual.js';
@@ -38,6 +32,7 @@ import {
 } from './playground-store.js';
 import { pollingSignal } from './polling-store.js';
 import { cellChanges } from './utils.js';
+import { Signal } from 'signal-polyfill';
 
 export class ConnectedCellStore implements CellStore {
 	private _state: AsyncSignal<FullStateDump>;
@@ -231,7 +226,7 @@ export class ConnectedConductorStore
 			const cellIds = await adminWs.listCellIds();
 
 			const { cellsToAdd, cellsToRemove } = cellChanges(
-				currentCells.cellIds(),
+				currentCells.keys(),
 				cellIds,
 			);
 

@@ -1,6 +1,5 @@
 import '@alenaksu/json-viewer';
 import '@shoelace-style/shoelace/dist/components/card/card.js';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
 import { css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
@@ -8,6 +7,7 @@ import { PlaygroundElement } from '../../base/playground-element.js';
 import { shortenStrRec } from '../utils/hash.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { getEntryContents } from '../utils/utils.js';
+import '../agent/holo-identicon.js';
 
 /**
  * @element entry-contents

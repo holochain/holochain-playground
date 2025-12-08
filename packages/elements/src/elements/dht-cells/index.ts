@@ -14,6 +14,9 @@ import {
 	DhtOp,
 	decodeHashFromBase64,
 	encodeHashToBase64,
+	DhtOpHash,
+	CellMap,
+	HoloHashMap
 } from '@holochain/client';
 import { mdiCog, mdiLanConnect, mdiPlay, mdiSpeedometer } from '@mdi/js';
 import '@scoped-elements/cytoscape';
@@ -33,11 +36,7 @@ import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/range/range.js';
 import '@shoelace-style/shoelace/dist/components/switch/switch.js';
-import { DhtOpHash, ValidationStatus } from '@darksoil-studio/holochain-core-types';
-import { wrapPathInSvg } from '@darksoil-studio/holochain-elements';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
-import { AsyncComputed, Signal, watch } from '@darksoil-studio/holochain-signals';
-import { CellMap, HoloHashMap } from '@darksoil-studio/holochain-utils';
+import { AsyncComputed } from 'async-signals';
 import { ElementDefinition, NodeDefinition, NodeSingular } from 'cytoscape';
 import { PropertyValues, css, html } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
@@ -66,6 +65,9 @@ import {
 	stringifyCellId,
 } from './processors.js';
 import { effect } from './utils.js';
+import { wrapPathInSvg } from '../utils/icons.js';
+import '../agent/holo-identicon.js';
+import { Signal } from 'signal-polyfill';
 
 const MIN_ANIMATION_DELAY = 1;
 const MAX_ANIMATION_DELAY = 7;
@@ -217,7 +219,7 @@ export class DhtCells extends PlaygroundElement {
 		if (cellsForActiveDna.status !== 'completed') return;
 		if (dhtShards.status !== 'completed') return;
 
-		cellsForActiveDna.value.cellIds().forEach(cellId => {
+		cellsForActiveDna.value.keys().forEach(cellId => {
 			this._graph.cy
 				.getElementById(stringifyCellId(cellId))
 				.removeClass('highlighted');
@@ -232,7 +234,7 @@ export class DhtCells extends PlaygroundElement {
 					isHoldingRecord(dhtShard, activeDhtHash),
 			);
 
-			for (const cellId of holdingCells.cellIds()) {
+			for (const cellId of holdingCells.keys()) {
 				this._graph.cy
 					.getElementById(stringifyCellId(cellId))
 					.addClass('highlighted');
@@ -480,7 +482,7 @@ export class DhtCells extends PlaygroundElement {
 						>Dht</a
 					>, with
 					${cellsForActiveDna.status === 'completed'
-						? cellsForActiveDna.value?.cellIds().length
+						? cellsForActiveDna.value?.keys().length
 						: ``}
 					nodes.
 					<br />

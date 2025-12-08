@@ -6,8 +6,7 @@ import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 import '@shoelace-style/shoelace/dist/components/tab/tab.js';
-import '@darksoil-studio/holochain-elements/dist/elements/holo-identicon.js';
-import { AsyncComputed } from '@darksoil-studio/holochain-signals';
+import { AsyncComputed } from 'async-signals';
 import { Grid } from '@vaadin/grid';
 import { GridColumn } from '@vaadin/grid/vaadin-grid-column.js';
 import '@vaadin/grid/vaadin-grid-column.js';
@@ -32,6 +31,7 @@ import '../helpers/call-functions.js';
 import '../helpers/help-button.js';
 import { sharedStyles } from '../utils/shared-styles.js';
 import { adminApi } from './admin-api.js';
+import '../agent/holo-identicon.js';
 
 @customElement('conductor-admin')
 export class ConductorAdmin extends PlaygroundElement {

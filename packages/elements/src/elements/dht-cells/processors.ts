@@ -1,17 +1,11 @@
 import {
-	CellMap,
-	HashType,
-	HoloHashMap,
-	hash,
-	hashAction,
-} from '@darksoil-studio/holochain-utils';
-import {
 	BadAgent,
 	Cell,
 	getDhtOpAction,
 	getDhtOpType,
 	isWarrantOp,
 	location,
+	hashAction
 } from '@holochain-playground/simulator';
 import {
 	ActionHash,
@@ -23,6 +17,9 @@ import {
 	EntryHash,
 	NewEntryAction,
 	encodeHashToBase64,
+	CellMap,
+	HoloHashMap,
+	HoloHash
 } from '@holochain/client';
 import isEqual from 'lodash-es/isEqual.js';
 
@@ -90,7 +87,7 @@ export function simulatedNeighbors(
 			if (!visitedFarPeers.get(cellId[1])) {
 				visitedFarPeers.set(cellId[1], new HoloHashMap());
 			}
-			visitedFarPeers.get(cellId[1]).set(farPeer, true);
+			(visitedFarPeers.get(cellId[1]) as HoloHashMap<HoloHash, boolean>).set(farPeer, true);
 			const myCellIdStr = stringifyCellId(cellId);
 			const farPeerCellIdStr = stringifyCellId([cellId[0], farPeer]);
 			normalEdges.push({
@@ -134,7 +131,7 @@ export function allPeersEdges(
 			if (
 				!(
 					visited.has(cellNeighbor) &&
-					visited.get(cellNeighbor).has(cellAgentPubKey)
+					(visited.get(cellNeighbor) as HoloHashMap<HoloHash, boolean>).has(cellAgentPubKey)
 				)
 			) {
 				const neighborNotConnected = !cells.has([cellId[0], cellNeighbor]);
@@ -162,7 +159,7 @@ export function allPeersEdges(
 				}
 			}
 
-			visited.get(cellAgentPubKey).set(cellNeighbor, true);
+			(visited.get(cellAgentPubKey) as HoloHashMap<HoloHash, boolean>).set(cellNeighbor, true);
 		}
 	}
 
