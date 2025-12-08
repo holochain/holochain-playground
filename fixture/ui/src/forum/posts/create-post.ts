@@ -1,110 +1,103 @@
 import {
-	ActionHash,
-	AgentPubKey,
-	AppClient,
-	DnaHash,
-	EntryHash,
-	InstalledCell,
-	Record,
-} from '@holochain/client';
-import { consume } from '@lit-labs/context';
-import '@material/mwc-button';
-import '@material/mwc-snackbar';
-import { Snackbar } from '@material/mwc-snackbar';
-import '@material/mwc-textarea';
-import '@material/mwc-textfield';
-import { LitElement, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+  ActionHash,
+  AgentPubKey,
+  AppClient,
+  DnaHash,
+  EntryHash,
+  HolochainError,
+  InstalledCell,
+  Record,
+} from "@holochain/client";
+import { consume } from "@lit/context";
+import { html, LitElement } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 
-import { clientContext } from '../../contexts';
-import { Post } from './types';
+import { clientContext } from "../../contexts";
+import { sharedStyles } from "../../shared-styles";
+import { Post } from "./types";
 
-@customElement('create-post')
+@customElement("create-post")
 export class CreatePost extends LitElement {
-	@consume({ context: clientContext })
-	client!: AppClient;
+  @consume({ context: clientContext })
+  client!: AppClient;
 
-	@state()
-	_title: string = '';
+  @state()
+  _title: string = "";
 
-	@state()
-	_content: string = '';
+  @state()
+  _content: string = "";
 
-	firstUpdated() {}
+  firstUpdated() {
+  }
 
-	isPostValid() {
-		return true && this._title !== '' && this._content !== '';
-	}
+  isPostValid() {
+    return true && this._title !== "" && this._content !== "";
+  }
 
-	async createPost() {
-		const post: Post = {
-			title: this._title,
-			content: this._content,
-		};
+  async createPost() {
+    const post: Post = {
+      title: this._title,
+      content: this._content,
+    };
 
-		try {
-			const record: Record = await this.client.callZome({
-				cap_secret: null,
-				role_name: 'forum',
-				zome_name: 'posts',
-				fn_name: 'create_post',
-				payload: post,
-			});
+    try {
+      const record: Record = await this.client.callZome({
+        role_name: "forum",
+        zome_name: "posts",
+        fn_name: "create_post",
+        payload: post,
+      });
 
-			this.dispatchEvent(
-				new CustomEvent('post-created', {
-					composed: true,
-					bubbles: true,
-					detail: {
-						postHash: record.signed_action.hashed.hash,
-					},
-				}),
-			);
-		} catch (e: any) {
-			const errorSnackbar = this.shadowRoot?.getElementById(
-				'create-error',
-			) as Snackbar;
-			errorSnackbar.labelText = `Error creating the post: ${e.data.data}`;
-			errorSnackbar.show();
-		}
-	}
+      this.dispatchEvent(
+        new CustomEvent("post-created", {
+          composed: true,
+          bubbles: true,
+          detail: {
+            postHash: record.signed_action.hashed.hash,
+          },
+        }),
+      );
+    } catch (e) {
+      alert((e as HolochainError).message);
+    }
+  }
 
-	render() {
-		return html` <mwc-snackbar id="create-error" leading> </mwc-snackbar>
+  render() {
+    return html`
+      <div>
+        <h3>Create Post</h3>
+        <div>
+          <label for="Title">Title</label>
+          <input
+            name="Title"
+  .value=${this._title}
+  @input=${(e: CustomEvent) => {
+      this._title = (e.target as any).value;
+    }}
+  required
+>
+        </div>
+        <div>
+          <label for="Content">Content</label>
+          <textarea
+            name="Content"
+  .value=${this._content}
+  @input=${(e: CustomEvent) => {
+      this._content = (e.target as any).value;
+    }}
+  required
+></textarea>
+        </div>
 
-			<div style="display: flex; flex-direction: column">
-				<span style="font-size: 18px">Create Post</span>
+        <button
+          .disabled=${!this.isPostValid()}
+          @click=${() => this.createPost()}
+        >
+          Create Post
+        </button>
+      </div>
+    `;
+  }
 
-				<div style="margin-bottom: 16px">
-					<mwc-textfield
-						outlined
-						label="Title"
-						.value=${this._title}
-						@input=${(e: CustomEvent) => {
-							this._title = (e.target as any).value;
-						}}
-						required
-					></mwc-textfield>
-				</div>
-
-				<div style="margin-bottom: 16px">
-					<mwc-textarea
-						outlined
-						label="Content"
-						.value=${this._content}
-						@input=${(e: CustomEvent) => {
-							this._content = (e.target as any).value;
-						}}
-						required
-					></mwc-textarea>
-				</div>
-
-				<mwc-button
-					raised
-					label="Create Post"
-					.disabled=${!this.isPostValid()}
-					@click=${() => this.createPost()}
-				></mwc-button>
-			</div>`;
-	}
+  static styles = sharedStyles;
 }

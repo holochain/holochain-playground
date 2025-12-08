@@ -6,18 +6,18 @@
     "tests"
   ],
   "scripts": {
-    "start": "AGENTS=2 npm run network",
-    "network": "hc s clean && npm run build:happ && cross-env UI_PORT=8888 concurrently -k \"npm start -w ui\" \"hc pilot workdir/forum.happ --ui-port 8888 --admin-port $ADMIN_PORT_2\" \"hc pilot workdir/forum.happ --ui-port 8888 --admin-port $ADMIN_PORT\" ",
-    "test": "npm run build:happ && npm t -w tests",
-    "build:happ": "npm run build:zomes && npm run pack:happ",
-    "pack:happ": "hc dna pack dnas/forum/workdir && hc app pack workdir",
-    "build:zomes": "RUSTFLAGS='' CARGO_TARGET_DIR=target cargo build --release --target wasm32-unknown-unknown"
+    "start": "AGENTS=${AGENTS:-2} BOOTSTRAP_PORT=$(get-port) npm run network",
+    "network": "hc sandbox clean && npm run build:happ && UI_PORT=$(get-port) concurrently \"npm run start --workspace ui\" \"npm run launch:happ\" \"hc playground\"",
+    "test": "npm run build:zomes && hc app pack workdir --recursive && npm run test --workspace tests",
+    "launch:happ": "hc-spin -n $AGENTS --ui-port $UI_PORT workdir/forum.happ",
+    "package": "npm run build:happ && npm run package --workspace ui && hc web-app pack workdir --recursive",
+    "build:happ": "npm run build:zomes && hc app pack workdir --recursive",
+    "build:zomes": "RUSTFLAGS='--cfg getrandom_backend=\"custom\"' cargo build --release --target wasm32-unknown-unknown"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "concurrently": "^6.2.1",
-    "rimraf": "^3.0.2",
-    "new-port-cli": "^1.0.0"
+    "@holochain/hc-spin": "^0.600.0",
+    "concurrently": "^6.5.1",
+    "get-port-cli": "^3.0.0"
   },
   "engines": {
     "npm": ">=7.0.0"
